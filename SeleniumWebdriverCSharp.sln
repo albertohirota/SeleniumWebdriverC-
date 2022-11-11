@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeleniumWebdriverCSharp", "SeleniumWebdriverCSharp\SeleniumWebdriverCSharp.csproj", "{3889E6C7-D2F6-48B0-A055-2C4DCB649AE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleFramework", "GoogleFramework\GoogleFramework.csproj", "{22E0B82C-5614-4CEC-8304-7334A5C1FC1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3889E6C7-D2F6-48B0-A055-2C4DCB649AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3889E6C7-D2F6-48B0-A055-2C4DCB649AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3889E6C7-D2F6-48B0-A055-2C4DCB649AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3889E6C7-D2F6-48B0-A055-2C4DCB649AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22E0B82C-5614-4CEC-8304-7334A5C1FC1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E0B82C-5614-4CEC-8304-7334A5C1FC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E0B82C-5614-4CEC-8304-7334A5C1FC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E0B82C-5614-4CEC-8304-7334A5C1FC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E595A464-17CF-4CBF-8669-D0586A4F6326}
+	EndGlobalSection
+EndGlobal
