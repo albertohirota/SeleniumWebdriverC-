@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestCases\" />
+    <Reference Include="GoogleLogin">
+      <HintPath>..\GoogleFramework\GoogleLogin.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
