@@ -1,5 +1,6 @@
 ﻿using GoogleFramework;
 using System.IO;
+using System.Reflection;
 
 namespace SeleniumWebdriverCSharp
 {
@@ -23,6 +24,13 @@ namespace SeleniumWebdriverCSharp
             }
         }
 
+        [TestInitialize]
+        public void TestSetup()
+        {
+            string testMethodName = TestContext!.TestName;
+            CommonFunctions.LogInfo("--------Starting Test Case: "+ testMethodName + "--------Test: ");
+        }
+
         [TestCleanup]
         public void CleanUp()
         {  
@@ -30,6 +38,7 @@ namespace SeleniumWebdriverCSharp
             {
                 CommonFunctions.TakeScreenshot(TestContext.TestName.ToString());
             }
+            CommonFunctions.LogInfo("--------End of the Test Case--------");
         }
     }
 }

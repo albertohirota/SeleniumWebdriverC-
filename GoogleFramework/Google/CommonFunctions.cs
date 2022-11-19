@@ -19,6 +19,11 @@ namespace GoogleFramework
 
         public TestContext? TestContext { get; set; }
 
+        public static void LogInfo(string message)
+        {
+            logger.Info(string.Format(message));
+        }
+
         public static void Delay(int miliSeconds)
         {
             Thread.Sleep(miliSeconds);
@@ -36,7 +41,7 @@ namespace GoogleFramework
             try
             {
                 findElement = Driver.Instance!.FindElement(by);
-                logger.Info(string.Format("Element found: " + findElement!.TagName.ToString()));
+                logger.Info(string.Format("Element found, XPath: " + by.ToString()));
 
             }
             catch (Exception e)
@@ -86,10 +91,11 @@ namespace GoogleFramework
 
         public static IWebElement WaitElementPresent(By by, int iTimeout = 5)
         {
-            IWebElement findElement = FindElement(by);
-            logger.Info(string.Format("Waiting element be present: " + findElement!.TagName.ToString()));
+            IWebElement? findElement = null;
+            logger.Info(string.Format("Waiting element be present, XPath: " + by.ToString()));
             for (int i = 0; i < iTimeout; i++)
             {
+                findElement = FindElement(by);
                 if (findElement == null)
                 {
                     Delay(1000);
@@ -97,7 +103,7 @@ namespace GoogleFramework
                 }
                 else break;
             }
-            return findElement;
+            return findElement!;
         }
 
         public static void Click(By by)
@@ -105,10 +111,10 @@ namespace GoogleFramework
             try
             {
                 IWebElement findElement = FindElement(by);
-                logger.Info(string.Format("Element found: " + findElement!.ToString()));
+                logger.Info(string.Format("Element found, XPath: " + by!.ToString()));
                 Actions builder = new(Driver.Instance);
                 builder.MoveToElement(Driver.Instance!.FindElement(by)).Click().Perform();
-                logger.Info(string.Format("Click element: " + findElement!.TagName.ToString()));
+                logger.Info(string.Format("Click element: " + by.ToString()));
             }
             catch (Exception e)
             {

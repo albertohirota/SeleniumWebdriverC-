@@ -14,7 +14,7 @@ namespace GoogleFramework
         {
             IWebElement element = WaitElementPresent(by);
             bool isVisible = element.Displayed;
-            logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is: "+element.TagName.ToString() ));
+            logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is, XPath: "+by.ToString() ));
             return isVisible;
         }
 
