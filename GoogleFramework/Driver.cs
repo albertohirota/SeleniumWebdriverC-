@@ -3,7 +3,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
-using static GoogleFramework.Driver;
 
 namespace GoogleFramework
 {
@@ -19,8 +18,7 @@ namespace GoogleFramework
 
         public static IWebDriver? Instance { get; set; }
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        private static ILog logger = LogManager.GetLogger(type: System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog logger = LogManager.GetLogger(type: System.Reflection.MethodBase.GetCurrentMethod()!.DeclaringType);
 
         public static void Initialize(Browsers browser)
         {
@@ -51,8 +49,7 @@ namespace GoogleFramework
 
         public static void CloseBrowser() 
         {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            Instance.Close();
+            Instance!.Close();
             Instance.Dispose();
             logger.Info(String.Format("Browser Closed."));
         }

@@ -15,6 +15,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="GoogleLogin">
+      <HintPath>GoogleLogin.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="GoogleLogin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
