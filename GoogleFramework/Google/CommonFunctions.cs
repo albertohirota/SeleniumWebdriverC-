@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Linq;
 using Login;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
@@ -24,6 +25,16 @@ namespace GoogleFramework
             logger.Info(string.Format(message));
         }
 
+        public static void LogWarn(string message)
+        {
+            logger.Warn(string.Format(message));
+        }
+
+        public static void LogError(string message)
+        {
+            logger.Error(string.Format(message));
+        }
+
         public static void Delay(int miliSeconds)
         {
             Thread.Sleep(miliSeconds);
@@ -41,7 +52,7 @@ namespace GoogleFramework
             try
             {
                 findElement = Driver.Instance!.FindElement(by);
-                logger.Info(string.Format("Element found, XPath: " + by.ToString()));
+                logger.Info(string.Format("Element found, Tag: " + findElement.TagName+ " Element: "+findElement.Text));
 
             }
             catch (Exception e)
@@ -86,7 +97,16 @@ namespace GoogleFramework
             IWebElement element = WaitElementPresent(by);
             element.SendKeys(text);
             Delay(1000);
-            logger.Info(string.Format("Sendkey: " + text + " to element: " + element.TagName.ToString()));
+            logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
+        }
+        public static void SendKeyAndEnter(By by, string text)
+        {
+            CommonFunctions.Delay(1000);
+            IWebElement element = WaitElementPresent(by);
+            element.SendKeys(text);
+            element.SendKeys(Keys.Return);
+            Delay(1000);
+            logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
         }
 
         public static IWebElement WaitElementPresent(By by, int iTimeout = 5)
@@ -100,6 +120,7 @@ namespace GoogleFramework
                 {
                     Delay(1000);
                     findElement = FindElement(by);
+                    logger.Info(String.Format("Element found: "+findElement.Text));
                 }
                 else break;
             }
@@ -110,11 +131,20 @@ namespace GoogleFramework
         {
             try
             {
-                IWebElement findElement = FindElement(by);
-                logger.Info(string.Format("Element found, XPath: " + by!.ToString()));
-                Actions builder = new(Driver.Instance);
-                builder.MoveToElement(Driver.Instance!.FindElement(by)).Click().Perform();
-                logger.Info(string.Format("Click element: " + by.ToString()));
+                int elem = 1;
+                ReadOnlyCollection<IWebElement> findElements = Driver.Instance.FindElements(by);
+                foreach (IWebElement element in findElements)
+                {
+                    logger.Info(String.Format("Total element: "+ findElements.Count.ToString()+" of "+elem.ToString()));
+                    if (element.Displayed)
+                    {
+                        logger.Info(string.Format("Element found, Tag: " + element.TagName + " Element: " + element.Text));
+                        Actions builder = new(Driver.Instance);
+                        logger.Info(string.Format("Click element: " + element.Text));
+                        builder.MoveToElement(Driver.Instance!.FindElement(by)).Click().Perform();
+                    }
+                    elem++;
+                }
             }
             catch (Exception e)
             {
