@@ -12,9 +12,37 @@ namespace GoogleFramework
 
         public static bool IsElementVisible(By by)
         {
-            IWebElement element = WaitElementPresent(by);
-            bool isVisible = element.Displayed;
-            logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is, XPath: "+by.ToString() ));
+            bool isVisible = false;
+            try {
+                ReadOnlyCollection<IWebElement> elements = FindElements(by);
+                foreach (IWebElement element in elements)
+                {
+                    if (element.Displayed)
+                    {
+                        isVisible= true;
+                        logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is: " + element.Text));
+                    }
+                }
+            }
+            catch {
+                logger.Error(String.Format("Element not found..."));
+            }
+            return isVisible;
+        }
+
+        public static bool IsElementNotVisible(By by)
+        {
+            bool isVisible = true;
+            try
+            {
+                ReadOnlyCollection<IWebElement> elements = FindElements(by);
+                isVisible = elements.Count > 0? true: false ;
+                logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is, XPath: " + by.ToString()));
+            } catch
+            {
+                logger.Error(String.Format("Element error..."));
+            }
+            
             return isVisible;
         }
 
@@ -45,6 +73,24 @@ namespace GoogleFramework
             }
             logger.Info(String.Format("Is text valid: " + isValid.ToString() + ". Text is: " + text));
             return isValid;
+        }
+
+        public static bool DoesObjectExist(string text, string objectName, string type)
+        {
+            bool exists = false;
+            By element = By.XPath("//"+type+ "[@"+objectName+"='"+text+"']");
+            try
+            {
+                ReadOnlyCollection<IWebElement> elements = FindElements(element);
+                exists = elements.Count > 0 ? true : false;
+                logger.Info(String.Format("Does the object exist: " + exists.ToString() + ". Elements found: " + elements.Count.ToString()));
+            }
+            catch
+            {
+                logger.Error(String.Format("Element invalid: " + element.ToString()));
+            }
+            
+            return exists;
         }
     }
 }

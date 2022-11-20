@@ -20,6 +20,7 @@ namespace SeleniumWebdriverCSharp.Gmail
         [TestMethod]
         public void TC001_ValidateSendButtonIsDisplayed()
         {
+            CommonFunctions.Delay(1500);
             Assert.IsTrue(Validation.IsElementVisible(GmailPage.ButtonSend), "Send button should be found");
         }
 
@@ -27,7 +28,13 @@ namespace SeleniumWebdriverCSharp.Gmail
         public void TC002_ValidateNewMessageText()
         {
             Assert.IsTrue(Validation.IsTextElementValid(GmailPage.TitleEmail, "New Message"), "Email title should be valid");
+        }
 
+        [TestMethod]
+        public void TC003_CancelEmailAndValidateNewEmailDoesNotExist()
+        {
+            GmailPage.Click_ButtonDiscard();
+            Assert.IsFalse(Validation.IsElementNotVisible(GmailPage.TitleEmail), "Email should not exist");
 
             CommonFunctions.TakeScreenshot("Test");
             CommonFunctions.Delay(1000);
@@ -59,6 +66,13 @@ namespace SeleniumWebdriverCSharp.Gmail
         {
             Assert.IsTrue(Validation.IsTextElementValid(GmailPage.TitleEmail, "New Message"), "Email title should be valid");
         }
+
+        [TestMethod]
+        public void TC003_CancelEmailAndValidateNewEmailDoesNotExist()
+        {
+            GmailPage.Click_ButtonDiscard();
+            Assert.IsFalse(Validation.IsElementNotVisible(GmailPage.TitleEmail), "Email should not exist");
+        }
     }
 
     [TestClass]
@@ -72,12 +86,14 @@ namespace SeleniumWebdriverCSharp.Gmail
 
             Driver.Initialize(Driver.Browsers.Firefox);
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
+            CommonFunctions.Delay(3000);
             GmailPage.Click_NewEmail();
         }
 
         [TestMethod]
         public void TC001_ValidateSendButtonIsDisplayed()
         {
+            CommonFunctions.Delay(3000);
             Assert.IsTrue(Validation.IsElementVisible(GmailPage.ButtonSend), "Send button should be found");
         }
 
@@ -85,6 +101,13 @@ namespace SeleniumWebdriverCSharp.Gmail
         public void TC002_ValidateNewMessageText()
         {
             Assert.IsTrue(Validation.IsTextElementValid(GmailPage.TitleEmail, "New Message"), "Email title should be valid");
+        }
+
+        [TestMethod]
+        public void TC003_CancelEmailAndValidateNewEmailDoesNotExist()
+        {
+            GmailPage.Click_ButtonDiscard();
+            Assert.IsFalse(Validation.IsElementNotVisible(GmailPage.TitleEmail), "Email should not exist");
         }
     }
 }

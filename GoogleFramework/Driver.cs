@@ -54,6 +54,11 @@ namespace GoogleFramework
             logger.Info(String.Format("Browser Closed."));
         }
 
+        public static void InstanceClose()
+        {
+            Instance!.Quit();
+            logger.Info(String.Format("Instance ended......."));
+        }
 
     }
 }
