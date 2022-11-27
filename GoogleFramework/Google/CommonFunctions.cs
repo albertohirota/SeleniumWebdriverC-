@@ -20,20 +20,19 @@ namespace GoogleFramework
 
         public TestContext? TestContext { get; set; }
 
-        public static void LogInfo(string message)
-        {
-            logger.Info(string.Format(message));
-        }
+        public static void LogInfo(string message) => logger.Info(string.Format(message));
 
-        public static void LogWarn(string message)
-        {
-            logger.Warn(string.Format(message));
-        }
 
-        public static void LogError(string message)
-        {
-            logger.Error(string.Format(message));
-        }
+        public static void LogWarn(string message) => logger.Warn(string.Format(message));
+
+
+        public static void LogError(string message) => logger.Error(string.Format(message));
+
+        public static void GoToTab(int tab) =>
+            Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]);
+
+        public static void CloseTab(int tab) =>
+            Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]).Close();
 
         public static void Delay(int miliSeconds)
         {
@@ -132,7 +131,7 @@ namespace GoogleFramework
             try
             {
                 int elem = 1;
-                ReadOnlyCollection<IWebElement> findElements = Driver.Instance.FindElements(by);
+                ReadOnlyCollection<IWebElement> findElements = Driver.Instance!.FindElements(by);
                 foreach (IWebElement element in findElements)
                 {
                     logger.Info(String.Format("Total element: "+ findElements.Count.ToString()+" of "+elem.ToString()));
@@ -151,6 +150,14 @@ namespace GoogleFramework
                 logger.Error(string.Format("Error: " + e.Message.ToString()));
             }
             Delay(700);
+        }
+
+        public static void Clear_TextElement(By by)
+        {
+            IWebElement element = WaitElementPresent(by);
+            element.SendKeys(Keys.Control + "a");
+            element.SendKeys(Keys.Delete);
+            Delay(1000);
         }
     }
 }

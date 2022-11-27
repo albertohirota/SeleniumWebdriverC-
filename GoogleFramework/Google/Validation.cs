@@ -92,5 +92,23 @@ namespace GoogleFramework
             
             return exists;
         }
+
+        public static bool DoesFileInGDriveExists(string fileName)
+        {
+            bool exists = false;
+            By element = By.XPath("//div[@class='KL4NAf '][contains(text(),'" + fileName + "')]");
+            try
+            {
+                ReadOnlyCollection<IWebElement> elements = FindElements(element);
+                exists = elements.Count > 0 ? true : false;
+                logger.Info(String.Format("Does the FileName exist: " + exists.ToString() + ". Elements found: " + elements.Count.ToString()));
+            }
+            catch
+            {
+                logger.Error(String.Format("Element invalid: " + element.ToString()));
+            }
+
+            return exists;
+        }
     }
 }

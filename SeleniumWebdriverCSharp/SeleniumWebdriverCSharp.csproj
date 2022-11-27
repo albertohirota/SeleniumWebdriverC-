@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="TestCases\Drive\" />
+    <Folder Include="TestCases\Calendar\" />
   </ItemGroup>
 
 </Project>

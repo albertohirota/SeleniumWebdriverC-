@@ -61,7 +61,6 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
             RunGmailCleanUpFolder();
 
-
             Driver.InstanceClose();
         }
 
