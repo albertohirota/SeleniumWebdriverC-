@@ -110,7 +110,7 @@ namespace GoogleFramework
             bool exists = false;
             By element = By.XPath("//span[@class='FAxxKc'][contains(text(),'" + eventName + "')]");
             exists = DoesElementExist(element);    
-            logger.Info(String.Format("Does the FileName exist: " + exists.ToString()));
+            logger.Info(String.Format("Does the EventName exist: " + exists.ToString()));
 
             return exists;
         }

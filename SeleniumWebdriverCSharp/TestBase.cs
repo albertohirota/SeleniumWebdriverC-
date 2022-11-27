@@ -85,7 +85,6 @@ namespace SeleniumWebdriverCSharp
         {
             CommonFunctions.LogInfo("--------Calendar Cleanup--------");
             CommonFunctions.GoToPage(GoogleLogin.CalendarUrl);
-            //GoogleLogin.
             CommonFunctions.Delay(3000);
             string[] events = { "TC201" ,"TC202"};
             foreach (string ev in events)
