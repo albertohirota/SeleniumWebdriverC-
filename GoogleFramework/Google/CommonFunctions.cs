@@ -20,6 +20,8 @@ namespace GoogleFramework
 
         public TestContext? TestContext { get; set; }
 
+        public static void Login(GoogleLogin.Sites site) => GoogleLogin.Go(site, Driver.Instance!);
+
         public static void LogInfo(string message) => logger.Info(string.Format(message));
 
 
@@ -34,15 +36,12 @@ namespace GoogleFramework
         public static void CloseTab(int tab) =>
             Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]).Close();
 
+        public static void GoToPage(string url)=> Driver.Instance!.Navigate().GoToUrl(url);
+
         public static void Delay(int miliSeconds)
         {
             Thread.Sleep(miliSeconds);
             logger.Info(string.Format("Delay miliseconds: " + miliSeconds.ToString()));
-        }
-
-        public static void Login(GoogleLogin.Sites site)
-        {
-            GoogleLogin.Go(site, Driver.Instance!);
         }
 
         public static IWebElement FindElement(By by)

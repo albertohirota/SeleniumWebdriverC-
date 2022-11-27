@@ -1,5 +1,6 @@
 ﻿using GoogleFramework;
 using Login;
+using System.Security.Policy;
 
 namespace SeleniumWebdriverCSharp
 {
@@ -12,7 +13,7 @@ namespace SeleniumWebdriverCSharp
         [AssemblyInitializeAttribute]
         public static void TestInitialize(TestContext context)
         {
-            CommonFunctions.LogInfo("--------Test Initializer--------");
+            
             if (context is null)
                 throw new ArgumentNullException(nameof(context));
 
@@ -29,6 +30,7 @@ namespace SeleniumWebdriverCSharp
                     CommonFunctions.LogWarn("File could not be deleted: "+file);
                 }
             }
+            CommonFunctions.LogInfo("--------Test Initializer--------");
         }
 
         [TestInitialize]
@@ -53,10 +55,11 @@ namespace SeleniumWebdriverCSharp
         [AssemblyCleanup]
         public static void AssemblyCleanUp()
         {
-            CommonFunctions.LogInfo("--------Running Gmail Cleanup--------"); 
+            CommonFunctions.LogInfo("--------Running Cleanup--------"); 
             Driver.Initialize(Driver.Browsers.Chrome);
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
             RunGmailCleanUpFolder();
+            RunCalendarCleanUpFolder();
 
             Driver.InstanceClose();
         }
@@ -69,12 +72,27 @@ namespace SeleniumWebdriverCSharp
 
         public static void RunGmailCleanUpFolder()
         {
+            CommonFunctions.LogInfo("--------Gmail Cleanup--------");
             GmailPage.GoToInbox();
             CommonFunctions.Delay(2000);
             GmailPage.Click_CheckBoxSelectAll();
             CommonFunctions.Delay(2000);
             GmailPage.Click_ButtonDelete(); 
             CommonFunctions.Delay(2000);
+        }
+
+        public static void RunCalendarCleanUpFolder()
+        {
+            CommonFunctions.LogInfo("--------Calendar Cleanup--------");
+            CommonFunctions.GoToPage(GoogleLogin.CalendarUrl);
+            //GoogleLogin.
+            CommonFunctions.Delay(3000);
+            string[] events = { "TC201" ,"TC202"};
+            foreach (string ev in events)
+            {
+                if (Validation.DoesCalendarEventExist(ev))
+                    CalendarPage.DeleteEvent(ev);
+            }
         }
 
     }

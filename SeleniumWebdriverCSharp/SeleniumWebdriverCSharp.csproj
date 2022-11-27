@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,6 +7,12 @@
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TestCases\Drive\**" />
+    <EmbeddedResource Remove="TestCases\Drive\**" />
+    <None Remove="TestCases\Drive\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
@@ -26,11 +32,6 @@
     <Reference Include="GoogleLogin">
       <HintPath>..\GoogleFramework\GoogleLogin.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TestCases\Drive\" />
-    <Folder Include="TestCases\Calendar\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,4 @@
-﻿using log4net.Repository.Hierarchy;
-using OpenQA.Selenium;
-using System.Collections.ObjectModel;
-using System.Reflection;
+﻿using OpenQA.Selenium;
 
 namespace GoogleFramework
 {
