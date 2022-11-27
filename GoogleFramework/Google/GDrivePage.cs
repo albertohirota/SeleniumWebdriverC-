@@ -19,7 +19,10 @@ namespace GoogleFramework
         public static void Click_FileInDrive(string file) => Click(By.XPath
             ("//div[contains(@aria-label,'"+file+"')][contains(text(),'"+file+"')]"));
         
-
+        /// <summary>
+        /// Description: Delete a file in GoogleDrive
+        /// </summary>
+        /// <param name="file">Need the File name to be delete</param>
         public static void DeleteFileInDrive(string file)
         {
             Click_FileInDrive(file);

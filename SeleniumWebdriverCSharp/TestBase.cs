@@ -1,8 +1,5 @@
 ﻿using GoogleFramework;
 using Login;
-using OpenQA.Selenium;
-using System.IO;
-using System.Reflection;
 
 namespace SeleniumWebdriverCSharp
 {

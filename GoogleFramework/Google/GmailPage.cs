@@ -1,9 +1,6 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools.V105.Page;
 using System.Collections.ObjectModel;
 using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
 
 namespace GoogleFramework
 {
@@ -32,7 +29,6 @@ namespace GoogleFramework
         public static readonly By CheckBoxSelectAll = By.XPath("//span[@class='T-Jo J-J5-Ji']");
         public static readonly By ButtonDelete = By.XPath("//div[@data-tooltip='Delete']");
 
-
         public static void Click_NewEmail() => Click(ButtonCompose);
         public static void Click_ButtonDiscard() => Click(ButtonDiscard);
         public static void Click_SendEmail() => Click(ButtonSend);
@@ -42,6 +38,14 @@ namespace GoogleFramework
         public static void Click_CheckBoxSelectAll() => Click(CheckBoxSelectAll);
         public static void Click_ButtonDelete() => Click(ButtonDelete);
 
+        /// <summary>
+        /// Function to populate a new email in Gmail
+        /// </summary>
+        /// <param name="email">Email recipient</param>
+        /// <param name="subject">Email subject</param>
+        /// <param name="messageBody">Email body info</param>
+        /// <param name="cc">optional CC</param>
+        /// <param name="bcc">Optional BCC</param>
         public static void PopulateEmail(string email, string subject, string messageBody, string cc=null!, string bcc=null!)
         {
             logger.Info(String.Format("Populating email..."));
@@ -62,6 +66,10 @@ namespace GoogleFramework
             SendKey(MessageBody, messageBody);
         }
 
+        /// <summary>
+        /// Function to wait and open a received email, required e-mail subject
+        /// </summary>
+        /// <param name="subject">Email subject parameter</param>
         public static void WaitAndOpenReceivedEmail(string subject)
         {
             ReadOnlyCollection<IWebElement> emails = FindElements(InboxListNewEmail);
