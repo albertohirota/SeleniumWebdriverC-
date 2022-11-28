@@ -1,7 +1,4 @@
-﻿using log4net.Repository.Hierarchy;
-using OpenQA.Selenium;
-using System.Collections.ObjectModel;
-using System.Reflection;
+﻿using OpenQA.Selenium;
 
 namespace GoogleFramework
 {
@@ -19,7 +16,10 @@ namespace GoogleFramework
         public static void Click_FileInDrive(string file) => Click(By.XPath
             ("//div[contains(@aria-label,'"+file+"')][contains(text(),'"+file+"')]"));
         
-
+        /// <summary>
+        /// Description: Delete a file in GoogleDrive
+        /// </summary>
+        /// <param name="file">Need the File name to be delete</param>
         public static void DeleteFileInDrive(string file)
         {
             Click_FileInDrive(file);

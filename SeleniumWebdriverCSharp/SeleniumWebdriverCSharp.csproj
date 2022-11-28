@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,6 +7,12 @@
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TestCases\Drive\**" />
+    <EmbeddedResource Remove="TestCases\Drive\**" />
+    <None Remove="TestCases\Drive\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
@@ -29,8 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestCases\Drive\" />
-    <Folder Include="TestCases\Calendar\" />
+    <Folder Include="TestCases\Docs\" />
   </ItemGroup>
 
 </Project>

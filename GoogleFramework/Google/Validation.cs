@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Xml.Linq;
 using OpenQA.Selenium;
 using static GoogleFramework.Driver;
 
@@ -10,6 +11,22 @@ namespace GoogleFramework
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(type: MethodBase.GetCurrentMethod()!.DeclaringType);
 
+        private static bool DoesElementExist(By elem)
+        {
+            bool exists;
+            try
+            {
+                ReadOnlyCollection<IWebElement> elements = FindElements(elem);
+                exists = elements.Count > 0 ? true : false;
+                logger.Info(String.Format("Elements found: " + elements.Count().ToString()));
+            }
+            catch
+            {
+                exists= false;
+                logger.Error(String.Format("Element invalid: " + elem.ToString()));
+            }
+            return exists;
+        }
         public static bool IsElementVisible(By by)
         {
             bool isVisible = false;
@@ -32,16 +49,9 @@ namespace GoogleFramework
 
         public static bool IsElementNotVisible(By by)
         {
-            bool isVisible = true;
-            try
-            {
-                ReadOnlyCollection<IWebElement> elements = FindElements(by);
-                isVisible = elements.Count > 0? true: false ;
-                logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is, XPath: " + by.ToString()));
-            } catch
-            {
-                logger.Error(String.Format("Element error..."));
-            }
+            bool isVisible;
+            isVisible = DoesElementExist(by);
+            logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is, XPath: " + by.ToString()));
             
             return isVisible;
         }
@@ -77,36 +87,50 @@ namespace GoogleFramework
 
         public static bool DoesObjectExist(string text, string objectName, string type)
         {
-            bool exists = false;
+            bool exists;
             By element = By.XPath("//"+type+ "[@"+objectName+"='"+text+"']");
-            try
-            {
-                ReadOnlyCollection<IWebElement> elements = FindElements(element);
-                exists = elements.Count > 0 ? true : false;
-                logger.Info(String.Format("Does the object exist: " + exists.ToString() + ". Elements found: " + elements.Count.ToString()));
-            }
-            catch
-            {
-                logger.Error(String.Format("Element invalid: " + element.ToString()));
-            }
+            exists = DoesElementExist(element);
+            logger.Info(String.Format("Does the object exist: " + exists.ToString()));
             
             return exists;
         }
 
         public static bool DoesFileInGDriveExists(string fileName)
         {
-            bool exists = false;
+            bool exists;
             By element = By.XPath("//div[@class='KL4NAf '][contains(text(),'" + fileName + "')]");
-            try
-            {
-                ReadOnlyCollection<IWebElement> elements = FindElements(element);
-                exists = elements.Count > 0 ? true : false;
-                logger.Info(String.Format("Does the FileName exist: " + exists.ToString() + ". Elements found: " + elements.Count.ToString()));
-            }
-            catch
-            {
-                logger.Error(String.Format("Element invalid: " + element.ToString()));
-            }
+            exists = DoesElementExist(element);
+            logger.Info(String.Format("Does the FileName exist: " + exists.ToString()));
+
+            return exists;
+        }
+
+        public static bool DoesCalendarEventExist(string eventName)
+        {
+            bool exists;
+            By element = By.XPath("//span[@class='FAxxKc'][contains(text(),'" + eventName + "')]");
+            exists = DoesElementExist(element);    
+            logger.Info(String.Format("Does the EventName exist: " + exists.ToString()));
+
+            return exists;
+        }
+
+        public static bool DoesCalendarTextMessageBodyExist(string textBody)
+        {
+            bool exists;
+            By element = By.XPath("//div[@id='xDetDlgDesc'][contains(text(),'" + textBody + "')]");
+            exists = DoesElementExist(element);
+            logger.Info(String.Format("Does the Event TextBody exist: " + exists.ToString()));
+
+            return exists;
+        }
+
+        public static bool DoesGuestExist(string guest)
+        {
+            bool exists;
+            By element = By.XPath("//div[@aria-label='Guests']//span[contains(text(),'" + guest + "')]");
+            exists = DoesElementExist(element);
+            logger.Info(String.Format("Does the Event TextBody exist: " + exists.ToString()));
 
             return exists;
         }

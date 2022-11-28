@@ -44,6 +44,7 @@ namespace GoogleFramework
                     Instance = new EdgeDriver(eOptions);
                     break;
             }
+            Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             logger.Info(String.Format("Browser started: "+ browser.ToString()));
         }
 

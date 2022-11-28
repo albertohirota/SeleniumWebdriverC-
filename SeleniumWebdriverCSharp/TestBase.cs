@@ -1,8 +1,6 @@
 ﻿using GoogleFramework;
 using Login;
-using OpenQA.Selenium;
-using System.IO;
-using System.Reflection;
+using System.Security.Policy;
 
 namespace SeleniumWebdriverCSharp
 {
@@ -15,7 +13,7 @@ namespace SeleniumWebdriverCSharp
         [AssemblyInitializeAttribute]
         public static void TestInitialize(TestContext context)
         {
-            CommonFunctions.LogInfo("--------Test Initializer--------");
+            
             if (context is null)
                 throw new ArgumentNullException(nameof(context));
 
@@ -32,6 +30,7 @@ namespace SeleniumWebdriverCSharp
                     CommonFunctions.LogWarn("File could not be deleted: "+file);
                 }
             }
+            CommonFunctions.LogInfo("--------Test Initializer--------");
         }
 
         [TestInitialize]
@@ -56,10 +55,13 @@ namespace SeleniumWebdriverCSharp
         [AssemblyCleanup]
         public static void AssemblyCleanUp()
         {
-            CommonFunctions.LogInfo("--------Running Gmail Cleanup--------"); 
+            CommonFunctions.LogInfo("--------Running Cleanup--------"); 
             Driver.Initialize(Driver.Browsers.Chrome);
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
             RunGmailCleanUpFolder();
+            RunCalendarCleanUpFolder();
+            RunGoogleDriveCleanUp();
+            RunDocsCleanUp();
 
             Driver.InstanceClose();
         }
@@ -72,12 +74,49 @@ namespace SeleniumWebdriverCSharp
 
         public static void RunGmailCleanUpFolder()
         {
+            CommonFunctions.LogInfo("--------Gmail Cleanup--------");
             GmailPage.GoToInbox();
             CommonFunctions.Delay(2000);
             GmailPage.Click_CheckBoxSelectAll();
             CommonFunctions.Delay(2000);
             GmailPage.Click_ButtonDelete(); 
             CommonFunctions.Delay(2000);
+        }
+
+        public static void RunCalendarCleanUpFolder()
+        {
+            CommonFunctions.LogInfo("--------Calendar Cleanup--------");
+            CommonFunctions.GoToPage(GoogleLogin.CalendarUrl);
+            CommonFunctions.Delay(3000);
+            string[] events = { "TC201" ,"TC202", "TC203"};
+            foreach (string ev in events)
+            {
+                if (Validation.DoesCalendarEventExist(ev))
+                {
+                    CalendarPage.DeleteEvent(ev);
+                    CalendarPage.Click_ButtonSend();
+                }
+            }
+        }
+
+        public static void RunGoogleDriveCleanUp()
+        {
+            CommonFunctions.LogInfo("--------Calendar GoogleDrive--------");
+            CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
+            CommonFunctions.Delay(3000);
+            string[] files = { "TC103"};
+            foreach (string file in files)
+            {
+                if (Validation.DoesFileInGDriveExists(file))
+                    GDrivePage.DeleteFileInDrive(file);
+            }
+        }
+
+        public static void RunDocsCleanUp()
+        {
+            CommonFunctions.LogInfo("--------Calendar GoogleDocs--------");
+            CommonFunctions.GoToPage(GoogleLogin.DocUrl);
+            CommonFunctions.Delay(3000);
         }
 
     }
