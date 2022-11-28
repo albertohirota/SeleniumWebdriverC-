@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Diagnostics;
+using System.Linq;
 using Login;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
 namespace GoogleFramework
@@ -107,22 +108,12 @@ namespace GoogleFramework
             logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
         }
 
-        public static IWebElement WaitElementPresent(By by, int iTimeout = 5)
+        public static IWebElement WaitElementPresent(By by, int iTimeout = 10)
         {
-            IWebElement? findElement = null;
-            logger.Info(string.Format("Waiting element be present, XPath: " + by.ToString()));
-            for (int i = 0; i < iTimeout; i++)
-            {
-                findElement = FindElement(by);
-                if (findElement == null)
-                {
-                    Delay(1000);
-                    findElement = FindElement(by);
-                    logger.Info(String.Format("Element found: "+findElement.Text));
-                }
-                else break;
-            }
-            return findElement!;
+            WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
+            IWebElement element = wait.Until(e => e.FindElement(by));
+
+            return element;
         }
 
         public static void Click(By by)
