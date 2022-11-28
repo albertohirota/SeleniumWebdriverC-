@@ -19,32 +19,19 @@ namespace SeleniumWebdriverCSharp.GDrive
         [TestMethod]
         public void TC101_ValidateFileExists()
         {
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("TC101"), "File name should exist");
+            TestCases.TC101();
         }
 
         [TestMethod]
         public void TC102_ValidateFileExistInShareWithMeFolder()
         {
-            GDrivePage.Click_DriveMenuFolder("Shared with me");
-            CommonFunctions.Delay(5000);
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("logo Lambton.PNG"), "File name should exist");
-            GDrivePage.Click_DriveMenuFolder("My Drive");
+            TestCases.TC102();
         }
 
         [TestMethod]
         public void TC103_ValidateCreatingOfNewFile()
         {
-            GDrivePage.Click_NewFile();
-            GDrivePage.Click_GoogleDocs();
-            CommonFunctions.GoToTab(1);
-            CommonFunctions.Delay(5000);
-            GOfficePage.RenameDocumentName("TC103");
-            CommonFunctions.Delay(3000);
-            CommonFunctions.CloseTab(1);
-            CommonFunctions.GoToTab(0);
-            CommonFunctions.Delay(7000);
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("TC103"), "File name should exist");
-            GDrivePage.DeleteFileInDrive("TC103");
+            TestCases.TC103();
         }
     }
 
@@ -64,32 +51,19 @@ namespace SeleniumWebdriverCSharp.GDrive
         [TestMethod]
         public void TC101_ValidateFileExists()
         {
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("TC101"), "File name should exist");
+            TestCases.TC101();
         }
 
         [TestMethod]
         public void TC102_ValidateFileExistInShareWithMeFolder()
         {
-            GDrivePage.Click_DriveMenuFolder("Shared with me");
-            CommonFunctions.Delay(5000);
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("logo Lambton.PNG"), "File name should exist");
-            GDrivePage.Click_DriveMenuFolder("My Drive");
+            TestCases.TC102();
         }
 
         [TestMethod]
         public void TC103_ValidateCreatingOfNewFile()
         {
-            GDrivePage.Click_NewFile();
-            GDrivePage.Click_GoogleDocs();
-            CommonFunctions.GoToTab(1);
-            CommonFunctions.Delay(5000);
-            GOfficePage.RenameDocumentName("TC103");
-            CommonFunctions.Delay(3000);
-            CommonFunctions.CloseTab(1);
-            CommonFunctions.GoToTab(0);
-            CommonFunctions.Delay(7000);
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("TC103"), "File name should exist");
-            GDrivePage.DeleteFileInDrive("TC103");
+            TestCases.TC103();
         }
     }
 
@@ -104,37 +78,25 @@ namespace SeleniumWebdriverCSharp.GDrive
 
             Driver.Initialize(Driver.Browsers.Firefox);
             CommonFunctions.Login(GoogleLogin.Sites.Drive);
+            CommonFunctions.Delay(2000);
         }
 
         [TestMethod]
         public void TC101_ValidateFileExists()
         {
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("TC101"), "File name should exist");
+            TestCases.TC101();
         }
 
         [TestMethod]
         public void TC102_ValidateFileExistInShareWithMeFolder()
         {
-            GDrivePage.Click_DriveMenuFolder("Shared with me");
-            CommonFunctions.Delay(5000);
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("logo Lambton.PNG"), "File name should exist");
-            GDrivePage.Click_DriveMenuFolder("My Drive");
+            TestCases.TC102();
         }
 
         [TestMethod]
         public void TC103_ValidateCreatingOfNewFile()
         {
-            GDrivePage.Click_NewFile();
-            GDrivePage.Click_GoogleDocs();
-            CommonFunctions.GoToTab(1);
-            CommonFunctions.Delay(5000);
-            GOfficePage.RenameDocumentName("TC103");
-            CommonFunctions.Delay(3000);
-            CommonFunctions.CloseTab(1);
-            CommonFunctions.GoToTab(0);
-            CommonFunctions.Delay(7000);
-            Assert.IsTrue(Validation.DoesFileInGDriveExists("TC103"), "File name should exist");
-            GDrivePage.DeleteFileInDrive("TC103");
+            TestCases.TC103();
         }
     }
 }

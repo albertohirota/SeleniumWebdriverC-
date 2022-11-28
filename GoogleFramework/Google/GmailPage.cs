@@ -49,6 +49,7 @@ namespace GoogleFramework
         public static void PopulateEmail(string email, string subject, string messageBody, string cc=null!, string bcc=null!)
         {
             logger.Info(String.Format("Populating email..."));
+            Delay(2000);
             SendKeyAndEnter(To, email);
 
             if (cc != null)
@@ -72,6 +73,7 @@ namespace GoogleFramework
         /// <param name="subject">Email subject parameter</param>
         public static void WaitAndOpenReceivedEmail(string subject)
         {
+            Delay(2000);
             ReadOnlyCollection<IWebElement> emails = FindElements(InboxListNewEmail);
             foreach (IWebElement newEmail in emails)
             {

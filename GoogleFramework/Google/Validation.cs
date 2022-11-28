@@ -11,22 +11,6 @@ namespace GoogleFramework
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(type: MethodBase.GetCurrentMethod()!.DeclaringType);
 
-        private static bool DoesElementExist(By elem)
-        {
-            bool exists;
-            try
-            {
-                ReadOnlyCollection<IWebElement> elements = FindElements(elem);
-                exists = elements.Count > 0 ? true : false;
-                logger.Info(String.Format("Elements found: " + elements.Count().ToString()));
-            }
-            catch
-            {
-                exists= false;
-                logger.Error(String.Format("Element invalid: " + elem.ToString()));
-            }
-            return exists;
-        }
         public static bool IsElementVisible(By by)
         {
             bool isVisible = false;
@@ -49,8 +33,7 @@ namespace GoogleFramework
 
         public static bool IsElementNotVisible(By by)
         {
-            bool isVisible;
-            isVisible = DoesElementExist(by);
+            bool isVisible = CommonFunctions.DoesElementExist(by);
             logger.Info(String.Format("Is element visible: " + isVisible.ToString() + ". Element is, XPath: " + by.ToString()));
             
             return isVisible;
@@ -87,9 +70,8 @@ namespace GoogleFramework
 
         public static bool DoesObjectExist(string text, string objectName, string type)
         {
-            bool exists;
             By element = By.XPath("//"+type+ "[@"+objectName+"='"+text+"']");
-            exists = DoesElementExist(element);
+            bool exists = CommonFunctions.DoesElementExist(element);
             logger.Info(String.Format("Does the object exist: " + exists.ToString()));
             
             return exists;
@@ -97,9 +79,8 @@ namespace GoogleFramework
 
         public static bool DoesFileInGDriveExists(string fileName)
         {
-            bool exists;
             By element = By.XPath("//div[@class='KL4NAf '][contains(text(),'" + fileName + "')]");
-            exists = DoesElementExist(element);
+            bool exists = CommonFunctions.DoesElementExist(element);
             logger.Info(String.Format("Does the FileName exist: " + exists.ToString()));
 
             return exists;
@@ -107,9 +88,8 @@ namespace GoogleFramework
 
         public static bool DoesCalendarEventExist(string eventName)
         {
-            bool exists;
             By element = By.XPath("//span[@class='FAxxKc'][contains(text(),'" + eventName + "')]");
-            exists = DoesElementExist(element);    
+            bool exists = CommonFunctions.DoesElementExist(element);    
             logger.Info(String.Format("Does the EventName exist: " + exists.ToString()));
 
             return exists;
@@ -117,9 +97,8 @@ namespace GoogleFramework
 
         public static bool DoesCalendarTextMessageBodyExist(string textBody)
         {
-            bool exists;
-            By element = By.XPath("//div[@id='xDetDlgDesc'][contains(text(),'" + textBody + "')]");
-            exists = DoesElementExist(element);
+            By element = By.XPath("//*[@id='xDetDlgDesc'][contains(text(),'" + textBody + "')]");
+            bool exists = CommonFunctions.DoesElementExist(element);
             logger.Info(String.Format("Does the Event TextBody exist: " + exists.ToString()));
 
             return exists;
@@ -127,9 +106,8 @@ namespace GoogleFramework
 
         public static bool DoesGuestExist(string guest)
         {
-            bool exists;
             By element = By.XPath("//div[@aria-label='Guests']//span[contains(text(),'" + guest + "')]");
-            exists = DoesElementExist(element);
+            bool exists = CommonFunctions.DoesElementExist(element);
             logger.Info(String.Format("Does the Event TextBody exist: " + exists.ToString()));
 
             return exists;

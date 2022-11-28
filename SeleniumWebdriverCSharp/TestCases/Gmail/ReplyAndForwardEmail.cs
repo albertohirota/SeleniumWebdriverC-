@@ -13,31 +13,19 @@ namespace SeleniumWebdriverCSharp.Gmail
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Chrome);
-            CommonFunctions.Login(GoogleLogin.Sites.Gmail);
-            GmailPage.Click_NewEmail();
-            GmailPage.PopulateEmail("albertohirota@gmail.com", "Test Receiving", "Test body receiving email", "alberto.hirota@gmail.com", "eitihirota@gmail.com");
-            GmailPage.Click_SendEmail();
-            GmailPage.WaitAndOpenReceivedEmail("Test Receiving");
+            TestCases.TC006Setup();
         }
 
         [TestMethod]
         public void TC006_ValidateReplyPage()
         {
-            GmailPage.Click_ButtonReply();
-            Assert.IsTrue(Validation.DoesObjectExist("albertohirota@gmail.com", "email", "span"), "Email should be visible");
-            GmailPage.Click_ButtonDiscard();
+            TestCases.TC006();
         }
 
         [TestMethod]
         public void TC007_ValidateForwardAndSendEmail()
         {
-            GmailPage.Click_ButtonForward();
-            GmailPage.SendKeyAndEnter(GmailPage.To,"eitihirota@gmail.com");
-            GmailPage.Click_SendEmail();
-            CommonFunctions.Delay(3000);
-            GmailPage.GoToInbox();
-            GmailPage.GoToInbox();
-            Assert.IsTrue(Validation.IsTextElementValid(GmailPage.InboxListNewEmail,"Forwarded message"), "Email should be valid");
+            TestCases.TC007();
         }
     }
 
@@ -51,31 +39,19 @@ namespace SeleniumWebdriverCSharp.Gmail
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Edge);
-            CommonFunctions.Login(GoogleLogin.Sites.Gmail);
-            GmailPage.Click_NewEmail();
-            GmailPage.PopulateEmail("albertohirota@gmail.com", "Test Receiving", "Test body receiving email", "alberto.hirota@gmail.com", "eitihirota@gmail.com");
-            GmailPage.Click_SendEmail();
-            GmailPage.WaitAndOpenReceivedEmail("Test Receiving");
+            TestCases.TC006Setup();
         }
 
         [TestMethod]
         public void TC006_ValidateReplyPage()
         {
-            GmailPage.Click_ButtonReply();
-            Assert.IsTrue(Validation.DoesObjectExist("albertohirota@gmail.com", "email", "span"), "Email should be visible");
-            GmailPage.Click_ButtonDiscard();
+            TestCases.TC006();
         }
 
         [TestMethod]
         public void TC007_ValidateForwardAndSendEmail()
         {
-            GmailPage.Click_ButtonForward();
-            GmailPage.SendKeyAndEnter(GmailPage.To, "eitihirota@gmail.com");
-            GmailPage.Click_SendEmail();
-            CommonFunctions.Delay(3000);
-            GmailPage.GoToInbox();
-            GmailPage.GoToInbox();
-            Assert.IsTrue(Validation.IsTextElementValid(GmailPage.InboxListNewEmail, "Forwarded message"), "Email should be valid");
+            TestCases.TC007();
         }
     }
 
@@ -89,31 +65,19 @@ namespace SeleniumWebdriverCSharp.Gmail
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Firefox);
-            CommonFunctions.Login(GoogleLogin.Sites.Gmail);
-            GmailPage.Click_NewEmail();
-            GmailPage.PopulateEmail("albertohirota@gmail.com", "Test Receiving", "Test body receiving email", "alberto.hirota@gmail.com", "eitihirota@gmail.com");
-            GmailPage.Click_SendEmail();
-            GmailPage.WaitAndOpenReceivedEmail("Test Receiving");
+            TestCases.TC006Setup();
         }
 
         [TestMethod]
         public void TC006_ValidateReplyPage()
         {
-            GmailPage.Click_ButtonReply();
-            Assert.IsTrue(Validation.DoesObjectExist("albertohirota@gmail.com", "email", "span"), "Email should be visible");
-            GmailPage.Click_ButtonDiscard();
+            TestCases.TC006();
         }
 
         [TestMethod]
         public void TC007_ValidateForwardAndSendEmail()
         {
-            GmailPage.Click_ButtonForward();
-            GmailPage.SendKeyAndEnter(GmailPage.To, "eitihirota@gmail.com");
-            GmailPage.Click_SendEmail();
-            CommonFunctions.Delay(3000);
-            GmailPage.GoToInbox();
-            GmailPage.GoToInbox();
-            Assert.IsTrue(Validation.IsTextElementValid(GmailPage.InboxListNewEmail, "Forwarded message"), "Email should be valid");
+            TestCases.TC007();
         }
     }
 }

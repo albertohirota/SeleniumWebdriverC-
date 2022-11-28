@@ -63,6 +63,14 @@ namespace GoogleFramework
             return findElement!;
         }
 
+        public static bool DoesElementExist(By element)
+        {
+            bool exists;
+            exists = WaitElementPresent(element);
+            logger.Info(String.Format("Element exist: " + exists.ToString() + " and Element is: " + element.ToString()));
+            return exists;
+        }
+
         public static ReadOnlyCollection<IWebElement> FindElements(By by)
         {
             ReadOnlyCollection<IWebElement>? findElements = null;
@@ -93,27 +101,38 @@ namespace GoogleFramework
 
         public static void SendKey(By by, string text)
         {
-            IWebElement element = WaitElementPresent(by);
-            element.SendKeys(text);
-            Delay(1000);
-            logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
+            bool elementExists = WaitElementPresent(by);
+            if (elementExists)
+            {
+                IWebElement element = FindElement(by);
+                element.SendKeys(text);
+                Delay(1000);
+                logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
+            }
         }
         public static void SendKeyAndEnter(By by, string text)
         {
             CommonFunctions.Delay(1000);
-            IWebElement element = WaitElementPresent(by);
-            element.SendKeys(text);
-            element.SendKeys(Keys.Return);
-            Delay(1000);
-            logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
+            bool elementExists = WaitElementPresent(by);
+            if (elementExists)
+            {
+                IWebElement element = FindElement(by);
+                element.SendKeys(text);
+                element.SendKeys(Keys.Return);
+                Delay(1000);
+                logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
+            }
         }
 
-        public static IWebElement WaitElementPresent(By by, int iTimeout = 10)
+        public static bool WaitElementPresent(By by, int iTimeout = 10)
         {
+            bool elementExists = false;
             WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
-            IWebElement element = wait.Until(e => e.FindElement(by));
+            ReadOnlyCollection<IWebElement> elements = wait.Until(drv => (drv.FindElements(by)));
+            elementExists = (elements.Count > 0)?true:false;
+            logger.Info(String.Format("Seconds waited: "+iTimeout.ToString()+" Elements found: " + elements.Count.ToString()));    
 
-            return element;
+            return elementExists;
         }
 
         public static void Click(By by)
@@ -142,9 +161,19 @@ namespace GoogleFramework
             Delay(700);
         }
 
+        public static void Click_Parent(By by)
+        {
+            IWebElement myElement = Driver.Instance!.FindElement(by);
+            IWebElement parent = myElement.FindElement(By.XPath("./.."));
+            Actions builder = new(Driver.Instance);
+            logger.Info(string.Format("Click element: " + parent.Text));
+            builder.MoveToElement(parent).Click().Perform();
+        }
+
         public static void Clear_TextElement(By by)
         {
-            IWebElement element = WaitElementPresent(by);
+            WaitElementPresent(by);
+            IWebElement element = FindElement(by);
             element.SendKeys(Keys.Control + "a");
             element.SendKeys(Keys.Delete);
             Delay(1000);

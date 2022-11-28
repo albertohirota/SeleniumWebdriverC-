@@ -55,7 +55,8 @@ namespace SeleniumWebdriverCSharp
         [AssemblyCleanup]
         public static void AssemblyCleanUp()
         {
-            CommonFunctions.LogInfo("--------Running Cleanup--------"); 
+            CommonFunctions.LogInfo("--------Running Assembly Cleanup--------");
+            CommonFunctions.Delay(5000);
             Driver.Initialize(Driver.Browsers.Chrome);
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
             RunGmailCleanUpFolder();
@@ -66,9 +67,10 @@ namespace SeleniumWebdriverCSharp
             Driver.InstanceClose();
         }
 
-        [ClassCleanup(InheritanceBehavior.BeforeEachDerivedClass)]
-        public static void classcleanUp()
+        [ClassCleanup()] //InheritanceBehavior.BeforeEachDerivedClass
+        public static void classCleanUp()
         {
+            CommonFunctions.LogInfo("--------Running Class Cleanup--------");
             Driver.CloseBrowser();
         }
 
