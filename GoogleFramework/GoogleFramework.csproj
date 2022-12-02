@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.58.0" />
     <PackageReference Include="Google.Apis.Docs.v1" Version="1.58.0.2833" />
+    <PackageReference Include="Google.Apis.Drive.v2" Version="1.58.0.2859" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.58.0.2826" />
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />

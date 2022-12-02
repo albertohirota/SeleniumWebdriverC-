@@ -39,6 +39,8 @@ namespace GoogleFramework
 
         public static void GoToPage(string url)=> Driver.Instance!.Navigate().GoToUrl(url);
 
+        public static void RefreshPage() => Driver.Instance!.Navigate().Refresh();
+
         public static void Delay(int miliSeconds)
         {
             Thread.Sleep(miliSeconds);
@@ -184,6 +186,13 @@ namespace GoogleFramework
             element.SendKeys(Keys.Control + "a");
             element.SendKeys(Keys.Delete);
             Delay(1000);
+        }
+
+        public static void SwitchFrame(By by)
+        {
+            Driver.Instance!.SwitchTo().ParentFrame();
+            Driver.Instance!.SwitchTo().DefaultContent();
+            Driver.Instance.SwitchTo().Frame(Driver.Instance.FindElement(by));
         }
     }
 }
