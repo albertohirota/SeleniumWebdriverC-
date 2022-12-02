@@ -112,5 +112,23 @@ namespace GoogleFramework
 
             return exists;
         }
+
+        public static bool DoesFileExistDocsSheetsSlides(string file)
+        {
+            By element = By.XPath("//div[@class='docs-homescreen-list-item-title-value'][contains(text(),'" + file + "')]");
+            bool exists = CommonFunctions.DoesElementExist(element);
+            logger.Info(String.Format("Does the Event TextBody exist: " + exists.ToString()));
+
+            return exists;
+        }
+
+        public static bool DoesTextExistsInDocument(string text)
+        {
+            By element = By.XPath("//div[@class='docs-homescreen-list-item-title-value'][contains(text(),'" + text + "')]");
+            bool exists = CommonFunctions.DoesElementExist(element);
+            logger.Info(String.Format("Does the Text exist: " + exists.ToString()));
+
+            return exists;
+        }
     }
 }

@@ -23,9 +23,21 @@ namespace SeleniumWebdriverCSharp.Docs
         }
 
         [TestMethod]
-        public void TC301_ValidateNewFileCreated()
+        public void TC301_ValidateFileExist()
         {
-            //Assert.IsTrue(Validation.DoesCalendarEventExist("TC201"), "File event should exist");
+            TestCases.TC301();
+        }
+
+        [TestMethod]
+        public void TC302_ValidateNewFileCreated()
+        {
+            TestCases.TC302();
+        }
+
+        [TestMethod]
+        public void TC303_ValidateDocBody()
+        {
+            TestCases.TC303();
         }
     }
 }

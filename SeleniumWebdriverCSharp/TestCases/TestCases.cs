@@ -5,7 +5,7 @@ using System;
 
 namespace SeleniumWebdriverCSharp
 {
-    public static class TestCases
+    public static class TestCases 
     {
         public static void TC001()
         {
@@ -127,6 +127,28 @@ namespace SeleniumWebdriverCSharp
             CalendarPage.Click_ExistingEvent("TC203");
             Assert.IsTrue(Validation.DoesGuestExist("alberto.hirota@gmail.com"), "Guest exist");
             CalendarPage.Click_ButtonDeleteSummaryPage();
+        }
+
+        public static void TC301()
+        {
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC301"), "File name should exist");
+        }
+
+        public static void TC302()
+        {
+            GOfficePage.Click_DocumentBlank();
+            CommonFunctions.Delay(4000);
+            GOfficePage.RenameDocumentName("TC302");
+            CommonFunctions.Delay(2000);
+            GOfficePage.Click_ButtonGoogle();
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC302"), "File name should exist");
+            GOfficePage.DeleteFile("TC302");
+        }
+
+        public static void TC303()
+        {
+            GOfficePage.Click_OpenFile("TC301");
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC301"), "File name should exist");
         }
     }
 }

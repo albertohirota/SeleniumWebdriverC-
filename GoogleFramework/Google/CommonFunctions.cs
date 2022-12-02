@@ -161,6 +161,13 @@ namespace GoogleFramework
             Delay(700);
         }
 
+
+        public static void RightClick(By by)
+        {
+            Actions builder = new Actions(Driver.Instance);
+            builder.MoveToElement(Driver.Instance!.FindElement(by)).ContextClick().Perform();
+            Delay(2000);
+        }
         public static void Click_Parent(By by)
         {
             IWebElement myElement = Driver.Instance!.FindElement(by);

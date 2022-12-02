@@ -106,7 +106,7 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.LogInfo("--------Calendar GoogleDrive--------");
             CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
             CommonFunctions.Delay(3000);
-            string[] files = { "TC103"};
+            string[] files = { "TC103","TC302"};
             foreach (string file in files)
             {
                 if (Validation.DoesFileInGDriveExists(file))
@@ -119,6 +119,12 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.LogInfo("--------Calendar GoogleDocs--------");
             CommonFunctions.GoToPage(GoogleLogin.DocUrl);
             CommonFunctions.Delay(3000);
+            string[] files = { "TC302" };
+            foreach (string file in files)
+            {
+                if (Validation.DoesFileExistDocsSheetsSlides(file))
+                    GOfficePage.DeleteFile(file);
+            }
         }
 
     }
