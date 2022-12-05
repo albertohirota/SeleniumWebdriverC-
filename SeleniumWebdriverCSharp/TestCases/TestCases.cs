@@ -1,7 +1,5 @@
 ﻿using GoogleFramework;
 using Login;
-using System;
-
 
 namespace SeleniumWebdriverCSharp
 {
@@ -214,6 +212,11 @@ namespace SeleniumWebdriverCSharp
 
             GOfficePage.Click_ButtonGoogle();
             GOfficePage.DeleteFile("TC305");
+        }
+
+        public static void TC401()
+        {
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC401"), "File name should exist");
         }
     }
 }

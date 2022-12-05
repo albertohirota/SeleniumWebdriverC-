@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Xml.Linq;
 using OpenQA.Selenium;
-using static GoogleFramework.Driver;
 
 namespace GoogleFramework
 {
