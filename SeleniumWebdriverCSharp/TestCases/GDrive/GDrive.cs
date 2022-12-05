@@ -33,6 +33,12 @@ namespace SeleniumWebdriverCSharp.GDrive
         {
             TestCases.TC103();
         }
+
+        [TestMethod]
+        public void TC104_ValidateFileExistsThroughApi()
+        {
+            TestCases.TC104();
+        }
     }
 
     [TestClass]
@@ -64,6 +70,12 @@ namespace SeleniumWebdriverCSharp.GDrive
         public void TC103_ValidateCreatingOfNewFile()
         {
             TestCases.TC103();
+        }
+
+        [TestMethod]
+        public void TC104_ValidateFileExistsThroughApi()
+        {
+            TestCases.TC104();
         }
     }
 
@@ -97,6 +109,12 @@ namespace SeleniumWebdriverCSharp.GDrive
         public void TC103_ValidateCreatingOfNewFile()
         {
             TestCases.TC103();
+        }
+
+        [TestMethod]
+        public void TC104_ValidateFileExistsThroughApi()
+        {
+            TestCases.TC104();
         }
     }
 }

@@ -45,7 +45,7 @@ namespace GoogleFramework
             Click(ButtonMoveToTrash);
         }
 
-        public static void SharedPublic(string user)
+        public static void SharePublic(string user)
         {
             Click_ButtonShare();
             AddSharedUser(user);
@@ -63,16 +63,19 @@ namespace GoogleFramework
             Delay(3000);
             NotifyPeopleInSharing(false);
             Click_ButtonShareSend();
+            Delay(2000);
+            WaitElementNotBePresent(ButtonSharingSend);
+            WaitElementNotBePresent(ButtonSharing);
             Delay(1000);
             RefreshPage();
-            Delay(1000);
+            Delay(2000);
             Driver.Instance!.SwitchTo().DefaultContent();
-            Delay(1000);
+            Delay(3000);
         }
 
         public static void NotifyPeopleInSharing(bool notify)
         {
-            bool selected = Driver.Instance.FindElement(CheckBoxNotify).Selected;
+            bool selected = Driver.Instance!.FindElement(CheckBoxNotify).Selected;
             if (selected != notify)
                 SendKey(CheckBoxNotify, Keys.Space);
         }

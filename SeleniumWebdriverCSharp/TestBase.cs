@@ -93,12 +93,13 @@ namespace SeleniumWebdriverCSharp
             string[] events = { "TC201" ,"TC202", "TC203"};
             foreach (string ev in events)
             {
-                if (Validation.DoesCalendarEventExist(ev))
+                while (Validation.DoesCalendarEventExist(ev))
                 {
                     CalendarPage.DeleteEvent(ev);
                     CalendarPage.Click_ButtonSend();
                 }
             }
+            CommonFunctions.Delay(3000);
         }
 
         public static void RunGoogleDriveCleanUp()
@@ -106,10 +107,10 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.LogInfo("--------Calendar GoogleDrive--------");
             CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
             CommonFunctions.Delay(3000);
-            string[] files = { "TC103","TC302"};
+            string[] files = { "Untitled document", "TC103","TC302","TC305"};
             foreach (string file in files)
             {
-                if (Validation.DoesFileInGDriveExists(file))
+                while (Validation.DoesFileInGDriveExists(file))
                     GDrivePage.DeleteFileInDrive(file);
             }
         }
@@ -119,10 +120,10 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.LogInfo("--------Calendar GoogleDocs--------");
             CommonFunctions.GoToPage(GoogleLogin.DocUrl);
             CommonFunctions.Delay(3000);
-            string[] files = { "TC302" };
+            string[] files = { "TC302","TC305" };
             foreach (string file in files)
             {
-                if (Validation.DoesFileExistDocsSheetsSlides(file))
+                while (Validation.DoesFileExistDocsSheetsSlides(file))
                     GOfficePage.DeleteFile(file);
             }
         }

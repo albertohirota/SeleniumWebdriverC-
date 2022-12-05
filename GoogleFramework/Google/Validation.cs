@@ -122,13 +122,23 @@ namespace GoogleFramework
             return exists;
         }
 
-        public static bool DoesTextExistsInDocument(string text)
+        public static bool DoesTextContainsInList(string text, IList<string> list)
         {
-            By element = By.XPath("//div[@class='docs-homescreen-list-item-title-value'][contains(text(),'" + text + "')]");
-            bool exists = CommonFunctions.DoesElementExist(element);
-            logger.Info(String.Format("Does the Text exist: " + exists.ToString()));
+            bool exists = false;
+            foreach (string fileName in list)
+            {
+                if (fileName.Contains(text))
+                    exists = true;
+            }
+            logger.Info(String.Format("Does the Text exist in the list: " +exists.ToString() +". And text is: " + text));
 
             return exists;
+        }
+
+        public static bool DoesTextContainsInString(string textOriginal, string textExpected)
+        {
+            logger.Info(String.Format("Original Text : " + textOriginal + ". Expected text: "+ textExpected));
+            return textOriginal.Contains(textExpected);
         }
     }
 }

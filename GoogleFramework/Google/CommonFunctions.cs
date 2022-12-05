@@ -112,14 +112,26 @@ namespace GoogleFramework
                 logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
             }
         }
+
+        public static void SendKeyActionBuilder(By by, string text)
+        {
+            bool elementExists = WaitElementPresent(by);
+            if (elementExists)
+            {
+                Actions builder = new(Driver.Instance);
+                builder.MoveToElement(Driver.Instance!.FindElement(by)).Click().SendKeys(text).Perform();
+                logger.Info(string.Format("Sendkey: " + text + " to element: " + by.ToString()));
+            }
+        }
+
         public static void SendKeyAndEnter(By by, string text)
         {
-            CommonFunctions.Delay(1000);
             bool elementExists = WaitElementPresent(by);
             if (elementExists)
             {
                 IWebElement element = FindElement(by);
                 element.SendKeys(text);
+                Delay(1000);
                 element.SendKeys(Keys.Return);
                 Delay(1000);
                 logger.Info(string.Format("Sendkey: " + text + " to element: " + element.Text.ToString()));
@@ -131,10 +143,33 @@ namespace GoogleFramework
             bool elementExists = false;
             WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
             ReadOnlyCollection<IWebElement> elements = wait.Until(drv => (drv.FindElements(by)));
-            elementExists = (elements.Count > 0)?true:false;
+            elementExists = (elements.Count > 0);
             logger.Info(String.Format("Seconds waited: "+iTimeout.ToString()+" Elements found: " + elements.Count.ToString()));    
 
             return elementExists;
+        }
+
+        public static void WaitElementNotBePresent(By by, int iTimeout = 10)
+        {
+            //WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
+            //_ = wait.Until(drv => drv.FindElements(by)).Count == 0;
+            int i = 0;
+            while(i < iTimeout)
+            {
+                try
+                {
+                    if (Driver.Instance!.FindElement(by).Displayed)
+                    {
+                        Delay(1000);
+                        i++;
+                    }
+                }
+                catch (NoSuchElementException)
+                {
+                    logger.Info(String.Format("Element should be no longer present."));
+                    break;
+                }
+            }
         }
 
         public static void Click(By by)
@@ -166,7 +201,7 @@ namespace GoogleFramework
 
         public static void RightClick(By by)
         {
-            Actions builder = new Actions(Driver.Instance);
+            Actions builder = new(Driver.Instance);
             builder.MoveToElement(Driver.Instance!.FindElement(by)).ContextClick().Perform();
             Delay(2000);
         }
@@ -185,7 +220,7 @@ namespace GoogleFramework
             IWebElement element = FindElement(by);
             element.SendKeys(Keys.Control + "a");
             element.SendKeys(Keys.Delete);
-            Delay(1000);
+            Delay(2000);
         }
 
         public static void SwitchFrame(By by)

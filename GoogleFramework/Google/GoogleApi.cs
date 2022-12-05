@@ -20,11 +20,13 @@ namespace GoogleFramework
     public class GoogleApi : CommonFunctions
     {
         static readonly string[] Scopes = { DriveService.Scope.DriveReadonly };
-        static readonly string ApplicationName = "QA-Automation"; //for Domain: brin.tituscloud.com
-        static readonly string[] ScopesSheets = { SheetsService.Scope.Spreadsheets };
-        static readonly string[] ScopesDocs = { DocsService.Scope.Documents };
+        static readonly string ApplicationName = "GoogleAutomation"; 
+        // readonly string[] ScopesSheets = { SheetsService.Scope.Spreadsheets };
+        //static readonly string[] ScopesDocs = { DocsService.Scope.Documents };
 
-        public static IList<Property> RetrieveProperties(DriveService service, String fileId)
+        private static string GetGoogleJson() => AppDomain.CurrentDomain.BaseDirectory + "\\Google\\Google.json";
+
+        public static IList<Property>? RetrieveProperties(DriveService service, String fileId)
         {
             try
             {
@@ -36,35 +38,6 @@ namespace GoogleFramework
                 Console.WriteLine("An error occurred: " + e.Message);
             }
             return null;
-        }
-
-        public static DriveService LoadDriveApi(bool runShareFile)
-        {
-            DriveService service;
-            GoogleCredential credential;
-            if (runShareFile)
-                G_OfficeCommon.SharePublic("automation@qa-automation-326813.iam.gserviceaccount.com"); //for Domain: brin.tituscloud.com
-
-            string json = $@"{GetCurrentWorkingDirectory()}\G-Office\qa-automation.json"; //for Domain: brin.tituscloud.com
-            using (var stream = new FileStream(json, FileMode.Open, FileAccess.ReadWrite))
-            {
-                credential = GoogleCredential.FromStream(stream)
-                  .CreateScoped(Scopes);
-            }
-
-            // Create Google Sheets API service.
-            service = new DriveService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
-            return service;
-        }
-
-        protected static string GetCurrentWorkingDirectory()
-        {
-            return new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase) ?? throw new InvalidOperationException()).LocalPath;
         }
 
         public static string GetCurrentGoogleDocID(string app)
@@ -84,29 +57,44 @@ namespace GoogleFramework
                     regex = @"/presentation/d/([a-zA-Z0-9-_]+)";
                     break;
             }
-            Regex RxSpreadSheetId = new Regex(regex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            Regex RxSpreadSheetId = new(regex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             string URL = Driver.Instance!.Url;
             Match MatchSpreadSheetId = RxSpreadSheetId.Match(URL);
             return MatchSpreadSheetId.Groups[1].Value;
         }
 
-        public static SheetsService LoadSheetsApi(bool shares)
+        public static GoogleCredential GetCredential(bool runShareFile)
+        {
+            GoogleCredential credential;
+            
+            if (runShareFile)
+                GOfficePage.SharePublic("automation@southern-bonsai-370413.iam.gserviceaccount.com");
+
+            using (var stream = new FileStream(GetGoogleJson(), FileMode.Open, FileAccess.ReadWrite))
+            {
+                return credential = GoogleCredential.FromStream(stream).CreateScoped(Scopes);
+            }
+        }
+
+        public static DriveService LoadDriveApi(bool runShareFile)
+        {
+            DriveService service;
+            GoogleCredential credential = GetCredential(runShareFile);
+
+            service = new DriveService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+
+            return service;
+        }
+
+        public static SheetsService LoadSheetsApi(bool runShareFile)
         {
             SheetsService service;
-            GoogleCredential credential;
+            GoogleCredential credential = GetCredential(runShareFile);
 
-            if (shares)
-                G_OfficeCommon.SharePublic("automation@qa-automation-326813.iam.gserviceaccount.com"); //for Domain: brin.tituscloud.com
-
-            string json = $@"{GetCurrentWorkingDirectory()}\G-Office\qa-automation.json"; //for Domain: brin.tituscloud.com
-
-            using (var stream = new FileStream(json, FileMode.Open, FileAccess.ReadWrite))
-            {
-                credential = GoogleCredential.FromStream(stream)
-                  .CreateScoped(ScopesSheets);
-            }
-
-            // Create Google Sheets API service.
             service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
@@ -116,23 +104,11 @@ namespace GoogleFramework
             return service;
         }
 
-        public static DocsService LoadDocsApi(bool shares)
+        public static DocsService LoadDocsApi(bool runShareFile)
         {
             DocsService service;
-            GoogleCredential credential;
+            GoogleCredential credential = GetCredential(runShareFile);
 
-            if (shares)
-                G_OfficeCommon.SharePublic("automation@qa-automation-326813.iam.gserviceaccount.com"); //for Domain: brin.tituscloud.com
-
-            //string json = $@"{GetCurrentWorkingDirectory()}\G-Office\brin-qa.json"; //for Domain: test.tituscloud.com
-            string json = $@"{GetCurrentWorkingDirectory()}\G-Office\qa-automation.json"; //for Domain: brin.tituscloud.com
-
-            using (var stream = new FileStream(json, FileMode.Open, FileAccess.ReadWrite))
-            {
-                credential = GoogleCredential.FromStream(stream).CreateScoped(ScopesDocs);
-            }
-
-            // Create Google Docs API service.
             service = new DocsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,

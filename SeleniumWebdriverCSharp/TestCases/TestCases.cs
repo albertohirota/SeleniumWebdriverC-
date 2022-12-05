@@ -18,9 +18,10 @@ namespace SeleniumWebdriverCSharp
         }
         public static void TC003()
         {
+            CommonFunctions.Delay(1000);
             GmailPage.Click_ButtonDiscard();
+            CommonFunctions.Delay(1000);
             Assert.IsFalse(Validation.IsElementNotVisible(GmailPage.TitleEmail), "Email should not exist");
-            CommonFunctions.TakeScreenshot("Test");
             CommonFunctions.Delay(1000);
         }
         public static void TC004Setup()
@@ -92,6 +93,13 @@ namespace SeleniumWebdriverCSharp
             Assert.IsTrue(Validation.DoesFileInGDriveExists("TC103"), "File name should exist");
             GDrivePage.DeleteFileInDrive("TC103");
         }
+
+        public static void TC104()
+        {
+            var fileList = GDrivePage.GetFileList();
+            Assert.IsTrue(Validation.DoesTextContainsInList("TC301",fileList),"Text should exists in the list");
+        }
+        
         public static void TC201()
         {
             CalendarPage.CreateNewEvent();
@@ -139,7 +147,7 @@ namespace SeleniumWebdriverCSharp
             GOfficePage.Click_DocumentBlank();
             CommonFunctions.Delay(4000);
             GOfficePage.RenameDocumentName("TC302");
-            CommonFunctions.Delay(2000);
+            CommonFunctions.Delay(3000);
             GOfficePage.Click_ButtonGoogle();
             Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC302"), "File name should exist");
             GOfficePage.DeleteFile("TC302");
@@ -147,8 +155,65 @@ namespace SeleniumWebdriverCSharp
 
         public static void TC303()
         {
+            bool? exist = false;
             GOfficePage.Click_OpenFile("TC301");
-            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC301"), "File name should exist");
+            var text = DocsPage.GetDocumentBody(false);
+
+            for (int i = 0; i < text.Count; i++)
+            {
+                if (Validation.DoesTextContainsInString(text[i], "Test Case 301 and 303"))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(exist, "Text Body should exist");
+            GOfficePage.Click_ButtonGoogle();
+        }
+
+        public static void TC304()
+        {
+            bool? exist = false;
+
+            GOfficePage.Click_OpenFile("TC301");
+            var texts = DocsPage.GetDocumentHeader(false);
+
+            for (int i = 0; i < texts.Count; i++)
+            {
+                if (Validation.DoesTextContainsInString(texts[i], "Hello World"))
+                {
+                    exist = true;
+                    break;
+                }
+            }   
+            Assert.IsTrue(exist, "Text Header should exist");
+            GOfficePage.Click_ButtonGoogle();
+        }
+
+        public static void TC305()
+        {
+            bool? exist = false;
+            GOfficePage.Click_DocumentBlank();
+            CommonFunctions.Delay(4000);
+            DocsPage.SendText_DocumentBody("Test Case 305");
+            CommonFunctions.Delay(2000);
+            GOfficePage.RenameDocumentName("TC305");
+            CommonFunctions.Delay(2000);
+
+            var text = DocsPage.GetDocumentBody(true);
+
+            for (int i = 0; i < text.Count; i++)
+            {
+                if (Validation.DoesTextContainsInString(text[i], "Test Case 305"))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(exist, "Text Body should exist");
+
+            GOfficePage.Click_ButtonGoogle();
+            GOfficePage.DeleteFile("TC305");
         }
     }
 }
