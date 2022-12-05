@@ -14,17 +14,15 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using GoogleFramework;
 using OpenQA.Selenium;
+using Login;
 
 namespace GoogleFramework
 {
     public class GoogleApi : CommonFunctions
     {
-        static readonly string[] Scopes = { DriveService.Scope.DriveReadonly };
         static readonly string ApplicationName = "GoogleAutomation"; 
         // readonly string[] ScopesSheets = { SheetsService.Scope.Spreadsheets };
         //static readonly string[] ScopesDocs = { DocsService.Scope.Documents };
-
-        private static string GetGoogleJson() => AppDomain.CurrentDomain.BaseDirectory + "\\Google\\Google.json";
 
         public static IList<Property>? RetrieveProperties(DriveService service, String fileId)
         {
@@ -40,6 +38,11 @@ namespace GoogleFramework
             return null;
         }
 
+        /// <summary>
+        /// Function to get the current Google Doc/Sheet/Slide ID that is current opened in the browser
+        /// </summary>
+        /// <param name="app">Need the app name</param>
+        /// <returns>Return Google ID for the document opened in the browser</returns>
         public static string GetCurrentGoogleDocID(string app)
         {
             string regex = "";
@@ -63,20 +66,27 @@ namespace GoogleFramework
             return MatchSpreadSheetId.Groups[1].Value;
         }
 
+        /// <summary>
+        /// Get GoogleCredential to access Google Files. Remember, file need to be shared with Google API, 
+        /// if you want to modify the file using Google APIs
+        /// </summary>
+        /// <param name="runShareFile">Bool Argument if the user needs to Share the file</param>
+        /// <returns>Return Google Credential</returns>
         public static GoogleCredential GetCredential(bool runShareFile)
         {
-            GoogleCredential credential;
-            
+            GoogleCredential credential;      
             if (runShareFile)
                 GOfficePage.SharePublic("automation@southern-bonsai-370413.iam.gserviceaccount.com");
 
-            using (var stream = new FileStream(GetGoogleJson(), FileMode.Open, FileAccess.ReadWrite))
-            {
-                return credential = GoogleCredential.FromStream(stream).CreateScoped(Scopes);
-            }
+            return credential = GoogleLogin.GetCredential();
         }
 
-        public static DriveService LoadDriveApi(bool runShareFile)
+        /// <summary>
+        /// Method to get Drive Service API
+        /// </summary>
+        /// <param name="runShareFile"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>Google Drive Service</returns>
+        public static DriveService GetDriveService(bool runShareFile)
         {
             DriveService service;
             GoogleCredential credential = GetCredential(runShareFile);
@@ -90,7 +100,12 @@ namespace GoogleFramework
             return service;
         }
 
-        public static SheetsService LoadSheetsApi(bool runShareFile)
+        /// <summary>
+        /// Get Google Sheets Services
+        /// </summary>
+        /// <param name="runShareFile"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>Google Sheets Service</returns>
+        public static SheetsService GetSheetsService(bool runShareFile)
         {
             SheetsService service;
             GoogleCredential credential = GetCredential(runShareFile);
@@ -104,7 +119,12 @@ namespace GoogleFramework
             return service;
         }
 
-        public static DocsService LoadDocsApi(bool runShareFile)
+        /// <summary>
+        /// Gets Google Docs Service
+        /// </summary>
+        /// <param name="runShareFile"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>Google Docs Service</returns>
+        public static DocsService GetDocsServices(bool runShareFile)
         {
             DocsService service;
             GoogleCredential credential = GetCredential(runShareFile);
