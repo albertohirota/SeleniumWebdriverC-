@@ -9,10 +9,16 @@ namespace GoogleFramework
         public static readonly By ContentArea = By.XPath("//canvas[@class='kix-canvas-tile-content']");
 
         public static void SendText_DocumentBody(string text) => SendKeyActionBuilder(ContentArea,text);
+
+        /// <summary>
+        /// Get a list of strings of the Document Header
+        /// </summary>
+        /// <param name="share"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>List of document headers</returns>
         public static List<string> GetDocumentHeader(bool share = false)
         {
             var headerListReturn = new List<string>();
-            Document doc = GetDocumentJson(share);
+            Document doc = GetDocumentObject(share);
             var headerDictionary = (Dictionary<string, Header>)doc.Headers;
 
             foreach (KeyValuePair<string, Header> headerList in headerDictionary)
@@ -30,10 +36,15 @@ namespace GoogleFramework
             return headerListReturn;
         }
 
+        /// <summary>
+        /// Get a list of the body of the document
+        /// </summary>
+        /// <param name="share"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>a list of document body text</returns>
         public static List<string> GetDocumentBody(bool share = false)
         {
             var bodyReturn = new List<string>();
-            Document doc = GetDocumentJson(share);
+            Document doc = GetDocumentObject(share);
             IList<StructuralElement> bodyList= doc.Body.Content;
 
             foreach (var body in bodyList)
@@ -53,15 +64,19 @@ namespace GoogleFramework
             return bodyReturn;
         }
 
-        private static Document GetDocumentJson(bool share)
+        /// <summary>
+        /// Get Document Object from Google Docs API
+        /// </summary>
+        /// <param name="share"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>Google Document Object</returns>
+        private static Document GetDocumentObject(bool share)
         {
-            DocsService service = GoogleApi.LoadDocsApi(share);
+            DocsService service = GoogleApi.GetDocsServices(share);
             string DocId = GoogleApi.GetCurrentGoogleDocID("docs");
 
             DocumentsResource.GetRequest request = service.Documents.Get(DocId);
             Document doc = request.Execute();
             return doc;
         }
-
     }
 }

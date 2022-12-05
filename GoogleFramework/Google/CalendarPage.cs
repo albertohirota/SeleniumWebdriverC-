@@ -59,6 +59,10 @@ namespace GoogleFramework
                 Click(ButtonSend);
         }
 
+        /// <summary>
+        /// Method to click in a existing event in Calendar
+        /// </summary>
+        /// <param name="ev">Need the event name</param>
         public static void Click_ExistingEvent(string ev)
         {
             Click_Parent(By.XPath("//span[@class='FAxxKc'][contains(text(),'" + ev + "')]"));            

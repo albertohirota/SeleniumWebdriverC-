@@ -30,6 +30,11 @@ namespace GoogleFramework
             Click_DeleteIconFromGoogleDrive();
         }
 
+        /// <summary>
+        /// Method to return a List of string of fileList from Google Drive
+        /// </summary>
+        /// <param name="share"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>List of string with file names</returns>
         public static List<string> GetFileList(bool share = false)
         {
             var fileList = new List<string>();
@@ -42,9 +47,15 @@ namespace GoogleFramework
             return fileList;
         }
 
+        /// <summary>
+        /// Method to get the FileList from GoogleDrive
+        /// </summary>
+        /// <param name="share"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns> Return the FileList from GoogleDrive</returns>
+        /// <exception cref="ArgumentNullException">In case sender, certificate, or chain is null</exception>
         private static FileList GetDriveJson(bool share)
         {
-            DriveService service = GoogleApi.LoadDriveApi(share);
+            DriveService service = GoogleApi.GetDriveService(share);
 
             FilesResource.ListRequest request = service.Files.List();
             request.Q = "";
