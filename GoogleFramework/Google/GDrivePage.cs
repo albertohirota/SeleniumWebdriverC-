@@ -1,4 +1,8 @@
 ﻿using OpenQA.Selenium;
+using Google.Apis.Drive.v2;
+using Google.Apis.Drive.v2.Data;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace GoogleFramework
 {
@@ -24,6 +28,41 @@ namespace GoogleFramework
         {
             Click_FileInDrive(file);
             Click_DeleteIconFromGoogleDrive();
+        }
+
+        public static List<string> GetFileList(bool share = false)
+        {
+            var fileList = new List<string>();
+            FileList driveList = GetDriveJson(share);
+            foreach(var file in driveList.Items)
+            {
+                fileList.Add(file.Title);
+            }
+
+            return fileList;
+        }
+
+        private static FileList GetDriveJson(bool share)
+        {
+            DriveService service = GoogleApi.LoadDriveApi(share);
+
+            FilesResource.ListRequest request = service.Files.List();
+            request.Q = "";
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors sslPoliocyErros)
+            {
+                if (sender is null)
+                    throw new ArgumentNullException(nameof(sender));
+
+                if (certificate is null)
+                    throw new ArgumentNullException(nameof(certificate));
+
+                if (chain is null)
+                    throw new ArgumentNullException(nameof(chain));
+
+                return true;
+            };
+            FileList drive = request.Execute();
+            return drive;
         }
     }
 }
