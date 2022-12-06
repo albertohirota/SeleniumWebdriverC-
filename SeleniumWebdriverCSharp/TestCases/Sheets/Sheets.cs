@@ -1,10 +1,15 @@
 ﻿using GoogleFramework;
 using Login;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SeleniumWebdriverCSharp.GDrive
+namespace SeleniumWebdriverCSharp.Sheets
 {
     [TestClass]
-    public class ChromeGDrive : TestBaseClass
+    public class ChromeSheets : TestBaseClass
     {
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void InitializeTest(TestContext context)
@@ -13,43 +18,44 @@ namespace SeleniumWebdriverCSharp.GDrive
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Chrome);
-            CommonFunctions.Login(GoogleLogin.Sites.Drive);
+            CommonFunctions.Login(GoogleLogin.Sites.Sheets);
+            CommonFunctions.Delay(5000);
         }
 
         [TestInitialize()]
         public void InitializeTestCases()
         {
-            CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
+            GOfficePage.Click_ButtonGoogle();
             CommonFunctions.Delay(3000);
         }
 
         [TestMethod]
-        public void TC101_ValidateFileExists()
+        public void TC401_ValidateFileExist()
         {
-            TestCases.TC101();
+            TestCases.TC401();
         }
 
         [TestMethod]
-        public void TC102_ValidateFileExistInShareWithMeFolder()
+        public void TC402_ValidateNewFileCreated()
         {
-            TestCases.TC102();
+            TestCases.TC402();
         }
 
         [TestMethod]
-        public void TC103_ValidateCreatingOfNewFile()
+        public void TC403_ValidateSpreadsheetBodyInCellB1()
         {
-            TestCases.TC103();
+            TestCases.TC403();
         }
 
         [TestMethod]
-        public void TC104_ValidateFileExistsThroughApi()
+        public void TC404_ValidateSheetcBodyTextInNewFile()
         {
-            TestCases.TC104();
+            TestCases.TC404();
         }
     }
 
     [TestClass]
-    public class EdgeGDrive : TestBaseClass
+    public class EdgeSheets : TestBaseClass
     {
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void InitializeTest(TestContext context)
@@ -58,43 +64,44 @@ namespace SeleniumWebdriverCSharp.GDrive
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Edge);
-            CommonFunctions.Login(GoogleLogin.Sites.Drive);
+            CommonFunctions.Login(GoogleLogin.Sites.Sheets);
+            CommonFunctions.Delay(5000);
         }
 
         [TestInitialize()]
         public void InitializeTestCases()
         {
-            CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
+            GOfficePage.Click_ButtonGoogle();
             CommonFunctions.Delay(3000);
         }
 
         [TestMethod]
-        public void TC101_ValidateFileExists()
+        public void TC401_ValidateFileExist()
         {
-            TestCases.TC101();
+            TestCases.TC401();
         }
 
         [TestMethod]
-        public void TC102_ValidateFileExistInShareWithMeFolder()
+        public void TC402_ValidateNewFileCreated()
         {
-            TestCases.TC102();
+            TestCases.TC402();
         }
 
         [TestMethod]
-        public void TC103_ValidateCreatingOfNewFile()
+        public void TC403_ValidateSpreadsheetBodyInCellB1()
         {
-            TestCases.TC103();
+            TestCases.TC403();
         }
 
         [TestMethod]
-        public void TC104_ValidateFileExistsThroughApi()
+        public void TC404_ValidateSheetcBodyTextInNewFile()
         {
-            TestCases.TC104();
+            TestCases.TC404();
         }
     }
 
     [TestClass]
-    public class FirefoxGDrive : TestBaseClass
+    public class FirefoxSheets : TestBaseClass
     {
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void InitializeTest(TestContext context)
@@ -103,39 +110,39 @@ namespace SeleniumWebdriverCSharp.GDrive
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Firefox);
-            CommonFunctions.Login(GoogleLogin.Sites.Drive);
-            CommonFunctions.Delay(2000);
+            CommonFunctions.Login(GoogleLogin.Sites.Sheets);
+            CommonFunctions.Delay(5000);
         }
 
         [TestInitialize()]
         public void InitializeTestCases()
         {
-            CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
+            GOfficePage.Click_ButtonGoogle();
             CommonFunctions.Delay(3000);
         }
 
         [TestMethod]
-        public void TC101_ValidateFileExists()
+        public void TC401_ValidateFileExist()
         {
-            TestCases.TC101();
+            TestCases.TC401();
         }
 
         [TestMethod]
-        public void TC102_ValidateFileExistInShareWithMeFolder()
+        public void TC402_ValidateNewFileCreated()
         {
-            TestCases.TC102();
+            TestCases.TC402();
         }
 
         [TestMethod]
-        public void TC103_ValidateCreatingOfNewFile()
+        public void TC403_ValidateSpreadsheetBodyInCellB1()
         {
-            TestCases.TC103();
+            TestCases.TC403();
         }
 
         [TestMethod]
-        public void TC104_ValidateFileExistsThroughApi()
+        public void TC404_ValidateSheetcBodyTextInNewFile()
         {
-            TestCases.TC104();
+            TestCases.TC404();
         }
     }
 }

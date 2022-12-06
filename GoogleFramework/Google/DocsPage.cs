@@ -17,6 +17,7 @@ namespace GoogleFramework
         /// <returns>List of document headers</returns>
         public static List<string> GetDocumentHeader(bool share = false)
         {
+            LogInfo("Getting Document Header");
             var headerListReturn = new List<string>();
             Document doc = GetDocumentObject(share);
             var headerDictionary = (Dictionary<string, Header>)doc.Headers;
@@ -43,6 +44,7 @@ namespace GoogleFramework
         /// <returns>a list of document body text</returns>
         public static List<string> GetDocumentBody(bool share = false)
         {
+            LogInfo("Getting Document body");
             var bodyReturn = new List<string>();
             Document doc = GetDocumentObject(share);
             IList<StructuralElement> bodyList= doc.Body.Content;
@@ -71,6 +73,7 @@ namespace GoogleFramework
         /// <returns>Google Document Object</returns>
         private static Document GetDocumentObject(bool share)
         {
+            LogInfo("Getting Document Object");
             DocsService service = GoogleApi.GetDocsServices(share);
             string DocId = GoogleApi.GetCurrentGoogleDocID("docs");
 

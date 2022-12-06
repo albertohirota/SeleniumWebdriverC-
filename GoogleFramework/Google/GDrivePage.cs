@@ -26,6 +26,7 @@ namespace GoogleFramework
         /// <param name="file">Need the File name to be delete</param>
         public static void DeleteFileInDrive(string file)
         {
+            LogInfo("Deleting File in Drive, file: "+ file);
             Click_FileInDrive(file);
             Click_DeleteIconFromGoogleDrive();
         }
@@ -37,6 +38,7 @@ namespace GoogleFramework
         /// <returns>List of string with file names</returns>
         public static List<string> GetFileList(bool share = false)
         {
+            LogInfo("Getting Google Drive File List through API");
             var fileList = new List<string>();
             FileList driveList = GetDriveJson(share);
             foreach(var file in driveList.Items)
@@ -55,8 +57,8 @@ namespace GoogleFramework
         /// <exception cref="ArgumentNullException">In case sender, certificate, or chain is null</exception>
         private static FileList GetDriveJson(bool share)
         {
+            LogInfo("Getting Google Drive Object");
             DriveService service = GoogleApi.GetDriveService(share);
-
             FilesResource.ListRequest request = service.Files.List();
             request.Q = "";
             System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors sslPoliocyErros)

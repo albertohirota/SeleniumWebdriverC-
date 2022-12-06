@@ -1,5 +1,4 @@
 ﻿using GoogleFramework;
-using Login;
 
 namespace SeleniumWebdriverCSharp.Gmail
 {

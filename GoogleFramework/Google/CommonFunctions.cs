@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
+using System.Security.Policy;
 
 namespace GoogleFramework
 {
@@ -31,16 +32,6 @@ namespace GoogleFramework
 
         public static void LogError(string message) => logger.Error(string.Format(message));
 
-        public static void GoToTab(int tab) =>
-            Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]);
-
-        public static void CloseTab(int tab) =>
-            Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]).Close();
-
-        public static void GoToPage(string url)=> Driver.Instance!.Navigate().GoToUrl(url);
-
-        public static void RefreshPage() => Driver.Instance!.Navigate().Refresh();
-
         public static void Delay(int miliSeconds)
         {
             Thread.Sleep(miliSeconds);
@@ -53,12 +44,12 @@ namespace GoogleFramework
             try
             {
                 findElement = Driver.Instance!.FindElement(by);
-                logger.Info(string.Format("Element found, Tag: " + findElement.TagName+ " Element: "+findElement.Text));
+                LogInfo("Element found, Tag: " + findElement.TagName+ " Element: "+findElement.Text);
 
             }
             catch (Exception e)
             {
-                logger.Error(string.Format("Error to find element: " + e.Message.ToString()));
+                LogError("Error to find element: " + e.Message.ToString());
             }
             Delay(500);
 
@@ -69,7 +60,7 @@ namespace GoogleFramework
         {
             bool exists;
             exists = WaitElementPresent(element);
-            logger.Info(String.Format("Element exist: " + exists.ToString() + " and Element is: " + element.ToString()));
+            LogInfo("Element exist: " + exists.ToString() + " and Element is: " + element.ToString());
             return exists;
         }
 
@@ -79,12 +70,12 @@ namespace GoogleFramework
             try
             {
                 findElements = Driver.Instance!.FindElements(by);
-                logger.Info(string.Format("Elements found: " + findElements!.Count.ToString()));
+                LogInfo("Elements found: " + findElements!.Count.ToString());
 
             }
             catch (Exception e)
             {
-                logger.Error(string.Format("Error: " + e.Message.ToString()));
+                LogError("Error: " + e.Message.ToString());
             }
             Delay(500);
 
@@ -98,7 +89,7 @@ namespace GoogleFramework
             var fileName = $"{"sShot-"}{testName}{"_"}{DateTime.Now.Ticks}{".jpg"}";
             var path = "C:\\Temp\\" + fileName;
             screenshot.SaveAsFile(path, ScreenshotImageFormat.Jpeg);
-            logger.Info(string.Format("ScreenShot taken: " + path));
+            LogInfo("ScreenShot taken: " + path);
         }
 
         public static void SendKey(By by, string text)
@@ -144,25 +135,22 @@ namespace GoogleFramework
             WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
             ReadOnlyCollection<IWebElement> elements = wait.Until(drv => (drv.FindElements(by)));
             elementExists = (elements.Count > 0);
-            logger.Info(String.Format("Seconds waited: "+iTimeout.ToString()+" Elements found: " + elements.Count.ToString()));    
+            logger.Info(String.Format("Wait element. Seconds waited: "+iTimeout.ToString()+". - Elements found: " + elements.Count.ToString()));
+            Driver.Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
             return elementExists;
         }
 
         public static void WaitElementNotBePresent(By by, int iTimeout = 10)
         {
-            //WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
-            //_ = wait.Until(drv => drv.FindElements(by)).Count == 0;
+            Driver.Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             int i = 0;
             while(i < iTimeout)
             {
                 try
                 {
                     if (Driver.Instance!.FindElement(by).Displayed)
-                    {
-                        Delay(1000);
                         i++;
-                    }
                 }
                 catch (NoSuchElementException)
                 {
@@ -170,6 +158,7 @@ namespace GoogleFramework
                     break;
                 }
             }
+            Driver.Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
         public static void Click(By by)
@@ -229,5 +218,36 @@ namespace GoogleFramework
             Driver.Instance!.SwitchTo().DefaultContent();
             Driver.Instance.SwitchTo().Frame(Driver.Instance.FindElement(by));
         }
+
+        public static string GetTextFromElement(By by)
+        {
+            string text = Driver.Instance!.FindElement(by).Text;
+            logger.Info(string.Format("Text found: " + text));
+            return text;
+        }
+
+        public static void RefreshPage()
+        {
+            Driver.Instance!.Navigate().Refresh();
+            logger.Info(string.Format("Browser Page refreshed"));
+        }
+
+        public static void GoToPage(string url)
+        {
+            Driver.Instance!.Navigate().GoToUrl(url);
+            logger.Info(string.Format("Going to Webpage: "+ url));
+        }
+
+        public static void CloseTab(int tab)
+        {
+            Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]).Close();
+            logger.Info(string.Format("Closing browser tab: " +tab.ToString()));
+        }
+
+        public static void GoToTab(int tab) 
+        {
+            Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]);
+            logger.Info(string.Format("Going to tab: " + tab.ToString()));
+        }    
     }
 }

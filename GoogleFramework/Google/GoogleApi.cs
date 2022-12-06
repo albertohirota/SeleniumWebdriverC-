@@ -2,18 +2,10 @@
 using Google.Apis.Drive.v2;
 using Google.Apis.Drive.v2.Data;
 using Google.Apis.Sheets.v4;
+using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Docs.v1;
-using Google.Apis.Docs.v1.Data;
-using Google.Apis.Util.Store;
 using Google.Apis.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
-using GoogleFramework;
-using OpenQA.Selenium;
 using Login;
 
 namespace GoogleFramework
@@ -21,11 +13,10 @@ namespace GoogleFramework
     public class GoogleApi : CommonFunctions
     {
         static readonly string ApplicationName = "GoogleAutomation"; 
-        // readonly string[] ScopesSheets = { SheetsService.Scope.Spreadsheets };
-        //static readonly string[] ScopesDocs = { DocsService.Scope.Documents };
 
         public static IList<Property>? RetrieveProperties(DriveService service, String fileId)
         {
+            LogInfo("Retriving document properties");
             try
             {
                 PropertyList properties = service.Properties.List(fileId).Execute();
@@ -46,7 +37,7 @@ namespace GoogleFramework
         public static string GetCurrentGoogleDocID(string app)
         {
             string regex = "";
-
+            LogInfo("Getting Google Document Id for app: "+ app);
             switch (app.ToLower())
             {
                 case "docs":
@@ -63,7 +54,9 @@ namespace GoogleFramework
             Regex RxSpreadSheetId = new(regex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             string URL = Driver.Instance!.Url;
             Match MatchSpreadSheetId = RxSpreadSheetId.Match(URL);
-            return MatchSpreadSheetId.Groups[1].Value;
+            string id = MatchSpreadSheetId.Groups[1].Value;
+            LogInfo("Ïd found is: " + id);
+            return id;
         }
 
         /// <summary>
@@ -74,11 +67,11 @@ namespace GoogleFramework
         /// <returns>Return Google Credential</returns>
         public static GoogleCredential GetCredential(bool runShareFile)
         {
-            GoogleCredential credential;      
+            LogInfo("Getting Google Credential");
             if (runShareFile)
                 GOfficePage.SharePublic("automation@southern-bonsai-370413.iam.gserviceaccount.com");
 
-            return credential = GoogleLogin.GetCredential();
+            return _ = GoogleLogin.GetCredential();
         }
 
         /// <summary>
@@ -88,6 +81,7 @@ namespace GoogleFramework
         /// <returns>Google Drive Service</returns>
         public static DriveService GetDriveService(bool runShareFile)
         {
+            LogInfo("Getting Google Drive Service");
             DriveService service;
             GoogleCredential credential = GetCredential(runShareFile);
 
@@ -105,8 +99,9 @@ namespace GoogleFramework
         /// </summary>
         /// <param name="runShareFile"> Does the user needs to share the file, so can be accessed by Google APIs</param>
         /// <returns>Google Sheets Service</returns>
-        public static SheetsService GetSheetsService(bool runShareFile)
+        public static SheetsService GetSheetsService(bool runShareFile = false)
         {
+            LogInfo("Getting Google Sheets Service");
             SheetsService service;
             GoogleCredential credential = GetCredential(runShareFile);
 
@@ -126,6 +121,7 @@ namespace GoogleFramework
         /// <returns>Google Docs Service</returns>
         public static DocsService GetDocsServices(bool runShareFile)
         {
+            LogInfo("Getting Google Docs Service");
             DocsService service;
             GoogleCredential credential = GetCredential(runShareFile);
 

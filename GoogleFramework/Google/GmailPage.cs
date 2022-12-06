@@ -6,9 +6,6 @@ namespace GoogleFramework
 {
     public class GmailPage : CommonFunctions
     {
-        private static readonly log4net.ILog logger = log4net.LogManager.
-            GetLogger(type: MethodBase.GetCurrentMethod()!.DeclaringType);
-
         public static readonly By ButtonCompose = By.XPath("//div[@class='T-I T-I-KE L3']");
         public static readonly By ButtonSend = By.XPath("//*[@role='button' and text()='Send']");
         public static readonly By TitleEmail = By.XPath("//*[@class='aYF']");
@@ -48,7 +45,7 @@ namespace GoogleFramework
         /// <param name="bcc">Optional BCC</param>
         public static void PopulateEmail(string email, string subject, string messageBody, string cc=null!, string bcc=null!)
         {
-            logger.Info(String.Format("Populating email..."));
+            LogInfo("Populating email...");
             Delay(2000);
             SendKeyAndEnter(To, email);
 
@@ -73,13 +70,14 @@ namespace GoogleFramework
         /// <param name="subject">Email subject parameter</param>
         public static void WaitAndOpenReceivedEmail(string subject)
         {
+            LogInfo("Waiting to receive and Open email");
             Delay(2000);
             ReadOnlyCollection<IWebElement> emails = FindElements(InboxListNewEmail);
             foreach (IWebElement newEmail in emails)
             {
                 if (newEmail.Text.Contains(subject))
                 {
-                    logger.Info(String.Format("New email found: "+ newEmail.Text.ToString()));
+                    LogInfo("New email found: "+ newEmail.Text.ToString());
                     try
                     {
                         newEmail.Click();

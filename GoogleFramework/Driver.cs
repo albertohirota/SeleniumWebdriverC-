@@ -8,7 +8,6 @@ namespace GoogleFramework
 {
     public class Driver
     {
-
         public enum Browsers
         {
             Firefox,
@@ -20,6 +19,10 @@ namespace GoogleFramework
 
         private static readonly ILog logger = LogManager.GetLogger(type: System.Reflection.MethodBase.GetCurrentMethod()!.DeclaringType);
 
+        /// <summary>
+        /// Initialize a browser instance
+        /// </summary>
+        /// <param name="browser"></param>
         public static void Initialize(Browsers browser)
         {
             Instance?.Quit();
@@ -44,10 +47,13 @@ namespace GoogleFramework
                     Instance = new EdgeDriver(eOptions);
                     break;
             }
-            Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             logger.Info(String.Format("Browser started: "+ browser.ToString()));
         }
 
+        /// <summary>
+        /// Close Browser
+        /// </summary>
         public static void CloseBrowser() 
         {
             Instance!.Close();
@@ -55,11 +61,13 @@ namespace GoogleFramework
             logger.Info(String.Format("Browser Closed."));
         }
 
+        /// <summary>
+        /// Close browser instance
+        /// </summary>
         public static void InstanceClose()
         {
             Instance!.Quit();
             logger.Info(String.Format("Instance ended......."));
         }
-
     }
 }

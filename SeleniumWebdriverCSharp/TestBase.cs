@@ -1,6 +1,5 @@
 ﻿using GoogleFramework;
 using Login;
-using System.Security.Policy;
 
 namespace SeleniumWebdriverCSharp
 {
@@ -63,6 +62,7 @@ namespace SeleniumWebdriverCSharp
             RunCalendarCleanUpFolder();
             RunGoogleDriveCleanUp();
             RunDocsCleanUp();
+            RunSheetsCleanUp();
 
             Driver.InstanceClose();
         }
@@ -104,10 +104,10 @@ namespace SeleniumWebdriverCSharp
 
         public static void RunGoogleDriveCleanUp()
         {
-            CommonFunctions.LogInfo("--------Calendar GoogleDrive--------");
+            CommonFunctions.LogInfo("--------GoogleDrive Cleanup--------");
             CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
             CommonFunctions.Delay(3000);
-            string[] files = { "Untitled document", "TC103","TC302","TC305"};
+            string[] files = { "Untitled document", "TC103","TC302","TC305","TC402", "Untitled spreadsheet", "TC404" };
             foreach (string file in files)
             {
                 while (Validation.DoesFileInGDriveExists(file))
@@ -117,7 +117,7 @@ namespace SeleniumWebdriverCSharp
 
         public static void RunDocsCleanUp()
         {
-            CommonFunctions.LogInfo("--------Calendar GoogleDocs--------");
+            CommonFunctions.LogInfo("--------Google Docs Cleanup--------");
             CommonFunctions.GoToPage(GoogleLogin.DocUrl);
             CommonFunctions.Delay(3000);
             string[] files = { "TC302","TC305" };
@@ -128,5 +128,17 @@ namespace SeleniumWebdriverCSharp
             }
         }
 
+        public static void RunSheetsCleanUp()
+        {
+            CommonFunctions.LogInfo("--------Google Sheets Cleanup--------");
+            CommonFunctions.GoToPage(GoogleLogin.SheetlUrl);
+            CommonFunctions.Delay(3000);
+            string[] files = { "TC402", "TC404" };
+            foreach (string file in files)
+            {
+                while (Validation.DoesFileExistDocsSheetsSlides(file))
+                    GOfficePage.DeleteFile(file);
+            }
+        }
     }
 }
