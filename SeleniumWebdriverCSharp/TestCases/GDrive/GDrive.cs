@@ -16,6 +16,13 @@ namespace SeleniumWebdriverCSharp.GDrive
             CommonFunctions.Login(GoogleLogin.Sites.Drive);
         }
 
+        [TestInitialize()]
+        public void InitializeTestCases()
+        {
+            CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
+            CommonFunctions.Delay(3000);
+        }
+
         [TestMethod]
         public void TC101_ValidateFileExists()
         {
@@ -52,6 +59,13 @@ namespace SeleniumWebdriverCSharp.GDrive
 
             Driver.Initialize(Driver.Browsers.Edge);
             CommonFunctions.Login(GoogleLogin.Sites.Drive);
+        }
+
+        [TestInitialize()]
+        public void InitializeTestCases()
+        {
+            CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
+            CommonFunctions.Delay(3000);
         }
 
         [TestMethod]
@@ -91,6 +105,13 @@ namespace SeleniumWebdriverCSharp.GDrive
             Driver.Initialize(Driver.Browsers.Firefox);
             CommonFunctions.Login(GoogleLogin.Sites.Drive);
             CommonFunctions.Delay(2000);
+        }
+
+        [TestInitialize()]
+        public void InitializeTestCases()
+        {
+            CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
+            CommonFunctions.Delay(3000);
         }
 
         [TestMethod]

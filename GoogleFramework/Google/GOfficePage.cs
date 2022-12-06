@@ -9,6 +9,7 @@ namespace GoogleFramework
     {
 
         public static readonly By DocumentTitle = By.XPath("//input[@class='docs-title-input']");
+        public static readonly By DocumentStatus = By.XPath("//div[@aria-label='Document status: Saved to Drive.']");
         public static readonly By DocumentBlank = By.XPath("//img[contains(@src,'blank')]");
         public static readonly By ButtonGoogle = By.XPath
             ("//*[@data-tooltip='Docs home' or @data-tooltip='Sheets home'or @data-tooltip='Slides home']");
@@ -32,14 +33,24 @@ namespace GoogleFramework
 
         public static void RenameDocumentName(string documentName)
         {
+            LogInfo("Renaming Document to: "+ documentName);
             Click_DocumentNameTitle();
             Clear_TextElement(DocumentTitle);
             SendKeyAndEnter(DocumentTitle,documentName);
-            Delay(2000);
+            WaitDocumentBeingSaved();
+        }
+
+        public static void WaitDocumentBeingSaved()
+        {
+            LogInfo("Waiting document being saved");
+            bool fileSaved = WaitElementPresent(DocumentStatus);
+            while (!fileSaved)
+                fileSaved = WaitElementPresent(DocumentStatus);
         }
 
         public static void DeleteFile(string fileName)
         {
+            LogInfo("Deleting file: "+ fileName);
             RightClick_File(fileName);
             Click(ButtonDeleteFromGoogleDocs);
             Click(ButtonMoveToTrash);
@@ -47,6 +58,8 @@ namespace GoogleFramework
 
         public static void SharePublic(string user)
         {
+            LogInfo("Sharing document with: "+ user);
+            WaitElementPresent(ButtonShare);
             Click_ButtonShare();
             AddSharedUser(user);
             Click_SendInSharingWindow();
@@ -54,12 +67,14 @@ namespace GoogleFramework
 
         public static void AddSharedUser(string user)
         {
+            LogInfo("Adding shared user: "+ user);
             SwitchFrame(IframeSharing);
             SendKeyAndEnter(TextBoxSharing,user);
         }
 
         public static void Click_SendInSharingWindow()
         {
+            LogInfo("Sending in Sharing Window");
             Delay(3000);
             NotifyPeopleInSharing(false);
             Click_ButtonShareSend();
@@ -75,6 +90,7 @@ namespace GoogleFramework
 
         public static void NotifyPeopleInSharing(bool notify)
         {
+            LogInfo("Notify people: "+notify.ToString());
             bool selected = Driver.Instance!.FindElement(CheckBoxNotify).Selected;
             if (selected != notify)
                 SendKey(CheckBoxNotify, Keys.Space);

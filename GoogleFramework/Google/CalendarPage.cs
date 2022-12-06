@@ -33,10 +33,11 @@ namespace GoogleFramework
         /// </summary>
         public static void CreateNewEvent()
         {
+            WaitElementPresent(Create);
             Click_Create();
-            Delay(1000);
+            WaitElementPresent(Event);
             Click_Event();
-            Delay(2000);
+            WaitElementPresent(AddTitleSummaryPage);
         }
 
         /// <summary>
@@ -65,7 +66,9 @@ namespace GoogleFramework
         /// <param name="ev">Need the event name</param>
         public static void Click_ExistingEvent(string ev)
         {
-            Click_Parent(By.XPath("//span[@class='FAxxKc'][contains(text(),'" + ev + "')]"));            
+            By by = By.XPath("//span[@class='FAxxKc'][contains(text(),'" + ev + "')]");
+            WaitElementPresent(by,15);
+            Click_Parent(by);
             if (!CommonFunctions.DoesElementExist(ButtonDeleteSummaryPage))
                 Click_Parent(By.XPath("//span[@class='FAxxKc'][contains(text(),'" + ev + "')]"));
         }

@@ -1,5 +1,8 @@
-﻿using GoogleFramework;
+﻿using Google.Apis.Sheets.v4.Data;
+using GoogleFramework;
+using GoogleFramework.Google;
 using Login;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SeleniumWebdriverCSharp
 {
@@ -25,6 +28,7 @@ namespace SeleniumWebdriverCSharp
         public static void TC004Setup()
         {
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
+            CommonFunctions.WaitElementPresent(GmailPage.ButtonCompose);
             GmailPage.Click_NewEmail();
             GmailPage.PopulateEmail("albertohirota@gmail.com", "Test Receiving", "Test body receiving email", "alberto.hirota@gmail.com", "eitihirota@gmail.com");
             GmailPage.Click_SendEmail();
@@ -50,6 +54,7 @@ namespace SeleniumWebdriverCSharp
         public static void TC006()
         {
             GmailPage.Click_ButtonReply();
+            CommonFunctions.Delay(3000);
             Assert.IsTrue(Validation.DoesObjectExist("albertohirota@gmail.com", "email", "span"), "Email should be visible");
             GmailPage.Click_ButtonDiscard();
         }
@@ -124,12 +129,13 @@ namespace SeleniumWebdriverCSharp
             CalendarPage.CreateNewEvent();
             CalendarPage.Add_Title_SummaryPage("TC203");
             CalendarPage.Click_ButtonMoreOptionsSummaryPage();
+            CommonFunctions.WaitElementPresent(CalendarPage.AddGuest);
             CalendarPage.Add_Guest("alberto.hirota@gmail.com");
             CalendarPage.Add_TextCalendarBody("This is TC203");
             CommonFunctions.Delay(2000);
             CalendarPage.Click_ButtonSave();
             CalendarPage.Click_ButtonSend();
-            CommonFunctions.Delay(3000);
+            CommonFunctions.Delay(1000);
             CalendarPage.Click_ExistingEvent("TC203");
             Assert.IsTrue(Validation.DoesGuestExist("alberto.hirota@gmail.com"), "Guest exist");
             CalendarPage.Click_ButtonDeleteSummaryPage();
@@ -155,6 +161,7 @@ namespace SeleniumWebdriverCSharp
         {
             bool? exist = false;
             GOfficePage.Click_OpenFile("TC301");
+            CommonFunctions.WaitElementPresent(GOfficePage.DocumentStatus,15);
             var text = DocsPage.GetDocumentBody(false);
 
             for (int i = 0; i < text.Count; i++)
@@ -174,6 +181,7 @@ namespace SeleniumWebdriverCSharp
             bool? exist = false;
 
             GOfficePage.Click_OpenFile("TC301");
+            CommonFunctions.WaitElementPresent(GOfficePage.DocumentStatus, 15);
             var texts = DocsPage.GetDocumentHeader(false);
 
             for (int i = 0; i < texts.Count; i++)
@@ -217,6 +225,58 @@ namespace SeleniumWebdriverCSharp
         public static void TC401()
         {
             Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC401"), "File name should exist");
+        }
+
+        public static void TC402()
+        {
+            GOfficePage.Click_DocumentBlank();
+            CommonFunctions.Delay(7000);
+            GOfficePage.RenameDocumentName("TC402");
+            GOfficePage.Click_ButtonGoogle();
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC402"), "File name should exist");
+            GOfficePage.DeleteFile("TC402");
+        }
+
+        public static void TC403()
+        {
+            bool? exist = false;
+            GOfficePage.Click_OpenFile("TC401");
+            GOfficePage.WaitDocumentBeingSaved();
+            ValueRange values = SheetsPage.GetSheetsEntry("A2");
+            for (int i = 0; i < values.Values.Count; i++)
+            {
+                if (values.Values[i].Contains("Test Case 401")) 
+                    exist = true;
+            }
+            Assert.IsTrue(exist, "Text should exist in cell A2");
+            GOfficePage.Click_ButtonGoogle();
+        }
+
+        public static void TC404()
+        {
+            bool? exist = false;
+            GOfficePage.Click_DocumentBlank();
+            CommonFunctions.Delay(4000);
+            GOfficePage.RenameDocumentName("TC404");
+            CommonFunctions.Delay(1000);
+            SheetsPage.SendKeysOnSheet("B1","Test Case 404", true);
+            CommonFunctions.Delay(2000);
+            ValueRange values = SheetsPage.GetSheetsEntry("B1");
+            IList<IList<Object>> items = values.Values; 
+            foreach (var item in items)
+            {
+                foreach (var x in item)
+                {
+                    
+                    if (Validation.DoesTextContainsInString(x.ToString(), "Test Case 404"))
+                        exist = true;
+                }
+            }
+
+            Assert.IsTrue(exist, "Text should exist in cell B1");
+
+            GOfficePage.Click_ButtonGoogle();
+            GOfficePage.DeleteFile("TC404");
         }
     }
 }

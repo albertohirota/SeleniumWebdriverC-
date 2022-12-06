@@ -81,6 +81,7 @@ namespace SeleniumWebdriverCSharp.Gmail
             Driver.Initialize(Driver.Browsers.Firefox);
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
             CommonFunctions.Delay(3000);
+            CommonFunctions.WaitElementPresent(GmailPage.ButtonCompose);
             GmailPage.Click_NewEmail();
         }
 
