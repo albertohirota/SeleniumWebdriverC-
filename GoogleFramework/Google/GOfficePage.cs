@@ -1,7 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System.Collections.ObjectModel;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace GoogleFramework
 {

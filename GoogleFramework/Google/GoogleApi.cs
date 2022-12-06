@@ -2,7 +2,6 @@
 using Google.Apis.Drive.v2;
 using Google.Apis.Drive.v2.Data;
 using Google.Apis.Sheets.v4;
-using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Docs.v1;
 using Google.Apis.Services;
 using System.Text.RegularExpressions;

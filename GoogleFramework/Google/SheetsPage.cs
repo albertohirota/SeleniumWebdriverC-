@@ -1,9 +1,7 @@
 ﻿using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 
-namespace GoogleFramework.Google
+namespace GoogleFramework
 {
     public class SheetsPage: CommonFunctions
     {

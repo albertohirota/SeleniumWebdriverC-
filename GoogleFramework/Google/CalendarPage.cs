@@ -33,6 +33,7 @@ namespace GoogleFramework
         /// </summary>
         public static void CreateNewEvent()
         {
+            LogInfo("creating new event");
             WaitElementPresent(Create);
             Click_Create();
             WaitElementPresent(Event);
@@ -46,6 +47,7 @@ namespace GoogleFramework
         /// <param name="ev">Event name</param>
         public static void DeleteEvent(string ev)
         {
+            LogInfo("Deleting event: "+ev);
             Click_ExistingEvent(ev);
             CommonFunctions.Delay(2000);
             Click_ButtonDeleteSummaryPage();
@@ -66,6 +68,7 @@ namespace GoogleFramework
         /// <param name="ev">Need the event name</param>
         public static void Click_ExistingEvent(string ev)
         {
+            LogInfo("Clicking an existing Event: "+ ev);
             By by = By.XPath("//span[@class='FAxxKc'][contains(text(),'" + ev + "')]");
             WaitElementPresent(by,15);
             Click_Parent(by);

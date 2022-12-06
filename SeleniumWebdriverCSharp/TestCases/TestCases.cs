@@ -1,8 +1,6 @@
 ﻿using Google.Apis.Sheets.v4.Data;
 using GoogleFramework;
-using GoogleFramework.Google;
 using Login;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SeleniumWebdriverCSharp
 {
@@ -135,7 +133,7 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.Delay(2000);
             CalendarPage.Click_ButtonSave();
             CalendarPage.Click_ButtonSend();
-            CommonFunctions.Delay(1000);
+            CommonFunctions.Delay(2000);
             CalendarPage.Click_ExistingEvent("TC203");
             Assert.IsTrue(Validation.DoesGuestExist("alberto.hirota@gmail.com"), "Guest exist");
             CalendarPage.Click_ButtonDeleteSummaryPage();
@@ -200,12 +198,11 @@ namespace SeleniumWebdriverCSharp
         {
             bool? exist = false;
             GOfficePage.Click_DocumentBlank();
-            CommonFunctions.Delay(4000);
-            DocsPage.SendText_DocumentBody("Test Case 305");
-            CommonFunctions.Delay(2000);
+            CommonFunctions.Delay(6000);
             GOfficePage.RenameDocumentName("TC305");
-            CommonFunctions.Delay(2000);
-
+            CommonFunctions.Delay(1000);
+            DocsPage.SendText_DocumentBody("Test Case 305");
+            CommonFunctions.Delay(2000);            
             var text = DocsPage.GetDocumentBody(true);
 
             for (int i = 0; i < text.Count; i++)
@@ -233,6 +230,7 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.Delay(7000);
             GOfficePage.RenameDocumentName("TC402");
             GOfficePage.Click_ButtonGoogle();
+            CommonFunctions.Delay(2000);
             Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC402"), "File name should exist");
             GOfficePage.DeleteFile("TC402");
         }
@@ -277,6 +275,27 @@ namespace SeleniumWebdriverCSharp
 
             GOfficePage.Click_ButtonGoogle();
             GOfficePage.DeleteFile("TC404");
+        }
+
+        public static void TC501()
+        {
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC501"), "File name should exist");
+        }
+
+        public static void TC502()
+        {
+            GOfficePage.Click_DocumentBlank();
+            CommonFunctions.Delay(7000);
+            GOfficePage.RenameDocumentName("TC502");
+            GOfficePage.Click_ButtonGoogle();
+            CommonFunctions.Delay(2000);
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC502"), "File name should exist");
+            GOfficePage.DeleteFile("TC502");
+        }
+
+        public static void TC503()
+        {
+            Assert.IsTrue(Validation.DoesFileExistDocsSheetsSlides("TC501"), "File name should exist");
         }
     }
 }
