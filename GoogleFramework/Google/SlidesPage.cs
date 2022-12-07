@@ -1,7 +1,6 @@
 ﻿using Google.Apis.Slides.v1;
 using Google.Apis.Slides.v1.Data;
 using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools.V106.Debugger;
 
 namespace GoogleFramework
 {
@@ -11,6 +10,11 @@ namespace GoogleFramework
 
         public static void SendText_PresentationBody(string text) => SendKeyActionBuilder(PresentationArea, text);
 
+        /// <summary>
+        /// Get Slide Object
+        /// </summary>
+        /// <param name="share">Enter if you need to share the Presentation, so API will be able to access the presentation</param>
+        /// <returns>Return the presentation object</returns>
         public static Presentation GetSlideObject(bool share)
         {
             LogInfo("Getting Google Sheets spreadshet");
@@ -23,6 +27,11 @@ namespace GoogleFramework
             return presentation;
         }
 
+        /// <summary>
+        /// Get Slides texts
+        /// </summary>
+        /// <param name="share">Enter if you need to share the Presentation, so API will be able to access the presentation</param>
+        /// <returns>Return a list of texts found in the presentation</returns>
         public static List<string> GetSlidesTexts(bool share = false)
         {
             LogInfo("Getting Presentation Texts");

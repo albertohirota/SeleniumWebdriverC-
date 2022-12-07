@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Login;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
-using System.IO;
 
 namespace GoogleFramework
 {
@@ -17,24 +14,45 @@ namespace GoogleFramework
         internal static readonly CommonFunctions commonFunctions = new();
         public CommonFunctions common = commonFunctions;
 
-        public TestContext? TestContext { get; set; }
-
+        /// <summary>
+        /// Login into the website
+        /// </summary>
+        /// <param name="site">Need the website Enum</param>
         public static void Login(GoogleLogin.Sites site) => GoogleLogin.Go(site, Driver.Instance!);
-
+        
+        /// <summary>
+        /// Log Information
+        /// </summary>
+        /// <param name="message">Enter the message</param>
         public static void LogInfo(string message) => logger.Info(string.Format(message));
-
-
+        
+        /// <summary>
+        /// Enter the Warn
+        /// </summary>
+        /// <param name="message">Enter the message</param>
         public static void LogWarn(string message) => logger.Warn(string.Format(message));
-
-
+        
+        /// <summary>
+        /// Enter the Error message
+        /// </summary>
+        /// <param name="message">Enter the message</param>
         public static void LogError(string message) => logger.Error(string.Format(message));
 
+        /// <summary>
+        /// Delay method
+        /// </summary>
+        /// <param name="miliSeconds">Enter the milisconds you want to wait</param>
         public static void Delay(int miliSeconds)
         {
             Thread.Sleep(miliSeconds);
             logger.Info(string.Format("Delay miliseconds: " + miliSeconds.ToString()));
         }
 
+        /// <summary>
+        /// Find element method
+        /// </summary>
+        /// <param name="by">Need the XPath to look the element</param>
+        /// <returns>return the IWebElement of the element</returns>
         public static IWebElement FindElement(By by)
         {
             LogInfo("Finding element");
@@ -54,6 +72,11 @@ namespace GoogleFramework
             return findElement!;
         }
 
+        /// <summary>
+        /// Check if the element exist
+        /// </summary>
+        /// <param name="element">Enter the XPath element</param>
+        /// <returns>Return boolean</returns>
         public static bool DoesElementExist(By element)
         {
             bool exists;
@@ -62,6 +85,11 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Find all elements according to the XPath argument
+        /// </summary>
+        /// <param name="by">Need the XPath argument</param>
+        /// <returns>Return a collection of IWebelements</returns>
         public static ReadOnlyCollection<IWebElement> FindElements(By by)
         {
             LogInfo("Finding elements");
@@ -81,6 +109,10 @@ namespace GoogleFramework
             return findElements!;
         }
 
+        /// <summary>
+        /// Take screenshot of the browser
+        /// </summary>
+        /// <param name="testName">Enter the TestName of file name you wish</param>
         public static void TakeScreenshot(string testName)
         {
             LogInfo("Taking screenshot");
@@ -92,6 +124,11 @@ namespace GoogleFramework
             LogInfo("ScreenShot taken: " + path);
         }
 
+        /// <summary>
+        /// Send keyboard keys
+        /// </summary>
+        /// <param name="by">Enter the XPath of the element</param>
+        /// <param name="text">Enter the text or Key</param>
         public static void SendKey(By by, string text)
         {
             LogInfo("Sending key");
@@ -105,6 +142,11 @@ namespace GoogleFramework
             }
         }
 
+        /// <summary>
+        /// Send the keyboard keys to the element. This method uses the Action class to send keys
+        /// </summary>
+        /// <param name="by">XPath element</param>
+        /// <param name="text">enter the text</param>
         public static void SendKeyActionBuilder(By by, string text)
         {
             LogInfo("Sending Key using Action builder");
@@ -117,6 +159,11 @@ namespace GoogleFramework
             }
         }
 
+        /// <summary>
+        /// Send keyboard key + Enter
+        /// </summary>
+        /// <param name="by">Enter the XPath of the element</param>
+        /// <param name="text">Enter the text or Key</param>
         public static void SendKeyAndEnter(By by, string text)
         {
             LogInfo("Sending Key and pressing Enter");
@@ -132,6 +179,12 @@ namespace GoogleFramework
             }
         }
 
+        /// <summary>
+        /// Wait element be present, the default time is 10 seconds.
+        /// </summary>
+        /// <param name="by">Enter XPath of the element</param>
+        /// <param name="iTimeout">Enter seconds you wish to wait</param>
+        /// <returns>Return boolean if it was successful</returns>
         public static bool WaitElementPresent(By by, int iTimeout = 10)
         {
             LogInfo("Waiting element be present");
@@ -145,6 +198,11 @@ namespace GoogleFramework
             return elementExists;
         }
 
+        /// <summary>
+        /// Wait element not be present in the browser
+        /// </summary>
+        /// <param name="by">Enter XPath of the element</param>
+        /// <param name="iTimeout">Enter seconds you wish to wait</param>
         public static void WaitElementNotBePresent(By by, int iTimeout = 10)
         {
             LogInfo("Waiting element not be present");
@@ -166,6 +224,10 @@ namespace GoogleFramework
             Driver.Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
+        /// <summary>
+        /// Click method
+        /// </summary>
+        /// <param name="by">Enter XPath element</param>
         public static void Click(By by)
         {
             LogInfo("Clicking element");
@@ -193,7 +255,10 @@ namespace GoogleFramework
             Delay(700);
         }
 
-
+        /// <summary>
+        /// Right Click Method
+        /// </summary>
+        /// <param name="by">Enter the XPath of the element</param>
         public static void RightClick(By by)
         {
             LogInfo("Right-Click element");
@@ -202,6 +267,11 @@ namespace GoogleFramework
             LogInfo("Right-Click element: " + Driver.Instance.FindElement(by).Text);
             Delay(2000);
         }
+
+        /// <summary>
+        /// Click Parent element. Sometimes a element is not clickable
+        /// </summary>
+        /// <param name="by">Enter the XPath of the element</param>
         public static void Click_Parent(By by)
         {
             LogInfo("Clicking parent element");
@@ -212,6 +282,10 @@ namespace GoogleFramework
             builder.MoveToElement(parent).Click().Perform();
         }
 
+        /// <summary>
+        /// Clear the text of the element
+        /// </summary>
+        /// <param name="by">Enter the XPath of the element</param>
         public static void Clear_TextElement(By by)
         {
             LogInfo("Clear element, send text and press Enter");
@@ -222,6 +296,10 @@ namespace GoogleFramework
             Delay(2000);
         }
 
+        /// <summary>
+        /// Switch frames
+        /// </summary>
+        /// <param name="by">Enter the XPath iFrame</param>
         public static void SwitchFrame(By by)
         {
             LogInfo("Switching frame");
@@ -230,6 +308,11 @@ namespace GoogleFramework
             Driver.Instance.SwitchTo().Frame(Driver.Instance.FindElement(by));
         }
 
+        /// <summary>
+        /// Get text from the element
+        /// </summary>
+        /// <param name="by">Enter XPath element to get the text</param>
+        /// <returns>Return the text of the element</returns>
         public static string GetTextFromElement(By by)
         {
             string text = Driver.Instance!.FindElement(by).Text;
@@ -238,24 +321,39 @@ namespace GoogleFramework
             return text;
         }
 
+        /// <summary>
+        /// Refresh browser page
+        /// </summary>
         public static void RefreshPage()
         {
             Driver.Instance!.Navigate().Refresh();
             LogInfo("Reloading browser");
         }
 
+        /// <summary>
+        /// Go to Page
+        /// </summary>
+        /// <param name="url">Enter the URL page</param>
         public static void GoToPage(string url)
         {
             Driver.Instance!.Navigate().GoToUrl(url);
             LogInfo("Going to Webpage: "+ url);
         }
 
+        /// <summary>
+        /// Close the tab. Browser tabs start from 0, like an array
+        /// </summary>
+        /// <param name="tab">Enter the tab number</param>
         public static void CloseTab(int tab)
         {
             Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]).Close();
             LogInfo("Closing browser tab: " +tab.ToString());
         }
 
+        /// <summary>
+        /// Go to the browser Tab
+        /// </summary>
+        /// <param name="tab">Enter Tab number</param>
         public static void GoToTab(int tab) 
         {
             Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]);

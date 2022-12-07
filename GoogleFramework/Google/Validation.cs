@@ -6,6 +6,11 @@ namespace GoogleFramework
 {
     public class Validation : CommonFunctions
     {
+        /// <summary>
+        /// Return if element is visible
+        /// </summary>
+        /// <param name="by">Enter XPath element</param>
+        /// <returns>return boolean</returns>
         public static bool IsElementVisible(By by)
         {
             bool isVisible = false;
@@ -26,6 +31,11 @@ namespace GoogleFramework
             return isVisible;
         }
 
+        /// <summary>
+        /// Is the element not visible
+        /// </summary>
+        /// <param name="by">Enter XPath element</param>
+        /// <returns>Returns a boolean if elemente is NOT visible</returns>
         public static bool IsElementNotVisible(By by)
         {
             bool isVisible = CommonFunctions.DoesElementExist(by);
@@ -34,6 +44,12 @@ namespace GoogleFramework
             return isVisible;
         }
 
+        /// <summary>
+        /// Is the text element valid?
+        /// </summary>
+        /// <param name="by">Enter XPath element</param>
+        /// <param name="text">Enter the expected text</param>
+        /// <returns>Return boolean if text is valid</returns>
         public static bool IsTextElementValid(By by, string text)
         {
             bool isValid = false;
@@ -63,6 +79,13 @@ namespace GoogleFramework
             return isValid;
         }
 
+        /// <summary>
+        /// Does the object exists
+        /// </summary>
+        /// <param name="text">Enter the Text to be validated</param>
+        /// <param name="objectName">Enter the element to be validate, ex: class, id, aria-label...</param>
+        /// <param name="type">Enter the tag elemente. Ex, div, button, span, p</param>
+        /// <returns>Return boolean if the object was found</returns>
         public static bool DoesObjectExist(string text, string objectName, string type)
         {
             By element = By.XPath("//"+type+ "[@"+objectName+"='"+text+"']");
@@ -72,6 +95,11 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Validate if the file exists in Google Drive
+        /// </summary>
+        /// <param name="fileName">Enter file name</param>
+        /// <returns>Returns if the file exists</returns>
         public static bool DoesFileInGDriveExists(string fileName)
         {
             By element = By.XPath("//div[@class='KL4NAf '][contains(text(),'" + fileName + "')]");
@@ -81,6 +109,11 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Validate if the Calendar event exists in Google Calendar
+        /// </summary>
+        /// <param name="eventName">Enter the event name</param>
+        /// <returns>Return boolean if the element was found</returns>
         public static bool DoesCalendarEventExist(string eventName)
         {
             By element = By.XPath("//span[@class='FAxxKc'][contains(text(),'" + eventName + "')]");
@@ -90,6 +123,11 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Check if the Calendar Body Text Message exists
+        /// </summary>
+        /// <param name="textBody">Enter the body text</param>
+        /// <returns>Return boolean if text exists</returns>
         public static bool DoesCalendarTextMessageBodyExist(string textBody)
         {
             By element = By.XPath("//*[@id='xDetDlgDesc'][contains(text(),'" + textBody + "')]");
@@ -99,6 +137,11 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Does the guest exists in the Calendar event
+        /// </summary>
+        /// <param name="guest">Enter the event name</param>
+        /// <returns>Return boolean if guest in the event exists</returns>
         public static bool DoesGuestExist(string guest)
         {
             By element = By.XPath("//div[@aria-label='Guests']//span[contains(text(),'" + guest + "')]");
@@ -108,6 +151,11 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Does the file exists in Docs, Sheets and Slides
+        /// </summary>
+        /// <param name="file">Enter file name</param>
+        /// <returns>Returns a boolean if the file was found</returns>
         public static bool DoesFileExistDocsSheetsSlides(string file)
         {
             By element = By.XPath("//div[@class='docs-homescreen-list-item-title-value'][contains(text(),'" + file + "')]");
@@ -117,6 +165,12 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Does the text exists in the list
+        /// </summary>
+        /// <param name="text">Enter the text to be validated</param>
+        /// <param name="list">Enter the list with texts</param>
+        /// <returns>Returns boolean if the text was found</returns>
         public static bool DoesTextContainsInList(string text, IList<string> list)
         {
             bool exists = false;
@@ -130,6 +184,12 @@ namespace GoogleFramework
             return exists;
         }
 
+        /// <summary>
+        /// Compare strings and returns if they match or not
+        /// </summary>
+        /// <param name="textOriginal">Enter the text to be validated</param>
+        /// <param name="textExpected">Enter the expected text</param>
+        /// <returns>Return boolean if the text was found</returns>
         public static bool DoesTextContainsInString(string textOriginal, string textExpected)
         {
             LogInfo("Original Text : " + textOriginal + ". Expected text: "+ textExpected);
