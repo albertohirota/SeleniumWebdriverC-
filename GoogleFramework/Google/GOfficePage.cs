@@ -1,7 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System.Collections.ObjectModel;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace GoogleFramework
 {
@@ -31,6 +28,10 @@ namespace GoogleFramework
             ("//div[@class='docs-homescreen-list-item-title-value'][contains(text(),'" + file + "')]"));
         public static void RightClick_File(string fileName) => RightClick(By.XPath("//div[@title='" + fileName + "']"));
 
+        /// <summary>
+        /// Method to rename the document
+        /// </summary>
+        /// <param name="documentName">Enter the document name</param>
         public static void RenameDocumentName(string documentName)
         {
             LogInfo("Renaming Document to: "+ documentName);
@@ -40,6 +41,9 @@ namespace GoogleFramework
             WaitDocumentBeingSaved();
         }
 
+        /// <summary>
+        /// Method to wait the document being saved
+        /// </summary>
         public static void WaitDocumentBeingSaved()
         {
             LogInfo("Waiting document being saved");
@@ -48,6 +52,10 @@ namespace GoogleFramework
                 fileSaved = WaitElementPresent(DocumentStatus);
         }
 
+        /// <summary>
+        /// Method to delete the file in the main Docs/Sheets/Slides page
+        /// </summary>
+        /// <param name="fileName">File name</param>
         public static void DeleteFile(string fileName)
         {
             LogInfo("Deleting file: "+ fileName);
@@ -56,6 +64,10 @@ namespace GoogleFramework
             Click(ButtonMoveToTrash);
         }
 
+        /// <summary>
+        /// Method to share document with a user.
+        /// </summary>
+        /// <param name="user">Enter the email user</param>
         public static void SharePublic(string user)
         {
             LogInfo("Sharing document with: "+ user);
@@ -65,6 +77,10 @@ namespace GoogleFramework
             Click_SendInSharingWindow();
         }
 
+        /// <summary>
+        /// Add the user in the iFrame AddUser
+        /// </summary>
+        /// <param name="user">Enter email user</param>
         public static void AddSharedUser(string user)
         {
             LogInfo("Adding shared user: "+ user);
@@ -72,6 +88,9 @@ namespace GoogleFramework
             SendKeyAndEnter(TextBoxSharing,user);
         }
 
+        /// <summary>
+        /// Click Send in Sharing Window
+        /// </summary>
         public static void Click_SendInSharingWindow()
         {
             LogInfo("Sending in Sharing Window");
@@ -88,6 +107,10 @@ namespace GoogleFramework
             Delay(3000);
         }
 
+        /// <summary>
+        /// Method to check or uncheck Notify people.
+        /// </summary>
+        /// <param name="notify">Enter true if you wish the checkbox to be check or false to be unchecked</param>
         public static void NotifyPeopleInSharing(bool notify)
         {
             LogInfo("Notify people: "+notify.ToString());
@@ -96,6 +119,9 @@ namespace GoogleFramework
                 SendKey(CheckBoxNotify, Keys.Space);
         }
 
+        /// <summary>
+        /// Click Button share
+        /// </summary>
         public static void Click_ButtonShareSend()
         {
             bool exist = DoesElementExist(ButtonSharingSend);

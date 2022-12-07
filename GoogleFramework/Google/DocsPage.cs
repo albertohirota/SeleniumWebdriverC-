@@ -21,7 +21,6 @@ namespace GoogleFramework
             var headerListReturn = new List<string>();
             Document doc = GetDocumentObject(share);
             var headerDictionary = (Dictionary<string, Header>)doc.Headers;
-
             foreach (KeyValuePair<string, Header> headerList in headerDictionary)
             {
                 for (int i = 0; i < headerList.Value.Content.Count; i++)
@@ -33,7 +32,6 @@ namespace GoogleFramework
                     }
                 }
             }
-
             return headerListReturn;
         }
 
@@ -48,7 +46,6 @@ namespace GoogleFramework
             var bodyReturn = new List<string>();
             Document doc = GetDocumentObject(share);
             IList<StructuralElement> bodyList= doc.Body.Content;
-
             foreach (var body in bodyList)
             {
                 for (int i = 0; i < bodyList.Count; i++)
@@ -76,7 +73,6 @@ namespace GoogleFramework
             LogInfo("Getting Document Object");
             DocsService service = GoogleApi.GetDocsServices(share);
             string DocId = GoogleApi.GetCurrentGoogleDocID("docs");
-
             DocumentsResource.GetRequest request = service.Documents.Get(DocId);
             Document doc = request.Execute();
             return doc;

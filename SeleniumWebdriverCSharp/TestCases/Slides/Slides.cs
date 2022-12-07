@@ -1,10 +1,10 @@
 ﻿using GoogleFramework;
 using Login;
 
-namespace SeleniumWebdriverCSharp.Sheets
+namespace SeleniumWebdriverCSharp.Slides
 {
     [TestClass]
-    public class ChromeSheets : TestBaseClass
+    public class ChromeSlides : TestBaseClass
     {
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void InitializeTest(TestContext context)
@@ -13,7 +13,7 @@ namespace SeleniumWebdriverCSharp.Sheets
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Chrome);
-            CommonFunctions.Login(GoogleLogin.Sites.Sheets);
+            CommonFunctions.Login(GoogleLogin.Sites.Slides);
             CommonFunctions.Delay(5000);
         }
 
@@ -25,32 +25,32 @@ namespace SeleniumWebdriverCSharp.Sheets
         }
 
         [TestMethod]
-        public void TC401_ValidateFileExist()
+        public void TC501_ValidateFileExist()
         {
-            TestCases.TC401();
+            TestCases.TC501();
         }
 
         [TestMethod]
-        public void TC402_ValidateNewFileCreated()
+        public void TC502_ValidateNewFileCreated()
         {
-            TestCases.TC402();
+            TestCases.TC502();
         }
 
         [TestMethod]
-        public void TC403_ValidateSpreadsheetBodyInCellB1()
+        public void TC503_ValidateTextInThePresentation()
         {
-            TestCases.TC403();
+            TestCases.TC503();
         }
 
         [TestMethod]
-        public void TC404_ValidateSheetcBodyTextInNewFile()
+        public void TC504_ValidateBodyTextInNewFile()
         {
-            TestCases.TC404();
+            TestCases.TC504();
         }
     }
 
     [TestClass]
-    public class EdgeSheets : TestBaseClass
+    public class EdgeSlides : TestBaseClass
     {
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void InitializeTest(TestContext context)
@@ -59,7 +59,7 @@ namespace SeleniumWebdriverCSharp.Sheets
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Edge);
-            CommonFunctions.Login(GoogleLogin.Sites.Sheets);
+            CommonFunctions.Login(GoogleLogin.Sites.Slides);
             CommonFunctions.Delay(5000);
         }
 
@@ -71,32 +71,32 @@ namespace SeleniumWebdriverCSharp.Sheets
         }
 
         [TestMethod]
-        public void TC401_ValidateFileExist()
+        public void TC501_ValidateFileExist()
         {
-            TestCases.TC401();
+            TestCases.TC501();
         }
 
         [TestMethod]
-        public void TC402_ValidateNewFileCreated()
+        public void TC502_ValidateNewFileCreated()
         {
-            TestCases.TC402();
+            TestCases.TC502();
         }
 
         [TestMethod]
-        public void TC403_ValidateSpreadsheetBodyInCellB1()
+        public void TC503_ValidateTextInThePresentation()
         {
-            TestCases.TC403();
+            TestCases.TC503();
         }
 
         [TestMethod]
-        public void TC404_ValidateSheetcBodyTextInNewFile()
+        public void TC504_ValidateBodyTextInNewFile()
         {
-            TestCases.TC404();
+            TestCases.TC504();
         }
     }
 
     [TestClass]
-    public class FirefoxSheets : TestBaseClass
+    public class FirefoxSlides : TestBaseClass
     {
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void InitializeTest(TestContext context)
@@ -105,7 +105,7 @@ namespace SeleniumWebdriverCSharp.Sheets
                 throw new ArgumentNullException(nameof(context));
 
             Driver.Initialize(Driver.Browsers.Firefox);
-            CommonFunctions.Login(GoogleLogin.Sites.Sheets);
+            CommonFunctions.Login(GoogleLogin.Sites.Slides);
             CommonFunctions.Delay(5000);
         }
 
@@ -117,27 +117,27 @@ namespace SeleniumWebdriverCSharp.Sheets
         }
 
         [TestMethod]
-        public void TC401_ValidateFileExist()
+        public void TC501_ValidateFileExist()
         {
-            TestCases.TC401();
+            TestCases.TC501();
         }
 
         [TestMethod]
-        public void TC402_ValidateNewFileCreated()
+        public void TC502_ValidateNewFileCreated()
         {
-            TestCases.TC402();
+            TestCases.TC502();
         }
 
         [TestMethod]
-        public void TC403_ValidateSpreadsheetBodyInCellB1()
+        public void TC503_ValidateTextInThePresentation()
         {
-            TestCases.TC403();
+            TestCases.TC503();
         }
 
         [TestMethod]
-        public void TC404_ValidateSheetcBodyTextInNewFile()
+        public void TC504_ValidateBodyTextInNewFile()
         {
-            TestCases.TC404();
+            TestCases.TC504();
         }
     }
 }
