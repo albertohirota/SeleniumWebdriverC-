@@ -6,6 +6,12 @@ namespace GoogleFramework
     public class SheetsPage: CommonFunctions
     {
         static readonly string sheet = "Sheet1";
+
+        /// <summary>
+        /// Get entries in the cell
+        /// </summary>
+        /// <param name="entry">Cell argument, type the cell, ex: C2 or the Range, ex: B1:C3 </param>
+        /// <returns>returned the value in the cells</returns>
         public static ValueRange GetSheetsEntry(string entry)
         {
             LogInfo("Getting Google Sheets spreadshet");
@@ -19,6 +25,12 @@ namespace GoogleFramework
             return response;
         }
 
+        /// <summary>
+        /// Send key to the spreadsheet
+        /// </summary>
+        /// <param name="entryCellRange">Inform which cell will be send key</param>
+        /// <param name="text">string to be sent to the cell</param>
+        /// <param name="shares">Should share the file?</param>
         public static void SendKeysOnSheet(string entryCellRange, string text, bool shares = false)
         {
             LogInfo("Sending Keys to Spreadsheet");

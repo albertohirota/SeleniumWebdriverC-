@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
-using System.Security.Policy;
+using System.IO;
 
 namespace GoogleFramework
 {
@@ -37,6 +37,7 @@ namespace GoogleFramework
 
         public static IWebElement FindElement(By by)
         {
+            LogInfo("Finding element");
             IWebElement? findElement = null;
             try
             {
@@ -63,6 +64,7 @@ namespace GoogleFramework
 
         public static ReadOnlyCollection<IWebElement> FindElements(By by)
         {
+            LogInfo("Finding elements");
             ReadOnlyCollection<IWebElement>? findElements = null;
             try
             {
@@ -81,16 +83,18 @@ namespace GoogleFramework
 
         public static void TakeScreenshot(string testName)
         {
+            LogInfo("Taking screenshot");
             ITakesScreenshot? instance = Driver.Instance as ITakesScreenshot;
             var screenshot = instance!.GetScreenshot();
             var fileName = $"{"sShot-"}{testName}{"_"}{DateTime.Now.Ticks}{".jpg"}";
             var path = "C:\\Temp\\" + fileName;
-            screenshot.SaveAsFile(path, ScreenshotImageFormat.Jpeg);
+            screenshot.SaveAsFile(path, ScreenshotImageFormat.Png);
             LogInfo("ScreenShot taken: " + path);
         }
 
         public static void SendKey(By by, string text)
         {
+            LogInfo("Sending key");
             bool elementExists = WaitElementPresent(by);
             if (elementExists)
             {
@@ -103,6 +107,7 @@ namespace GoogleFramework
 
         public static void SendKeyActionBuilder(By by, string text)
         {
+            LogInfo("Sending Key using Action builder");
             bool elementExists = WaitElementPresent(by);
             if (elementExists)
             {
@@ -114,6 +119,7 @@ namespace GoogleFramework
 
         public static void SendKeyAndEnter(By by, string text)
         {
+            LogInfo("Sending Key and pressing Enter");
             bool elementExists = WaitElementPresent(by);
             if (elementExists)
             {
@@ -128,6 +134,7 @@ namespace GoogleFramework
 
         public static bool WaitElementPresent(By by, int iTimeout = 10)
         {
+            LogInfo("Waiting element be present");
             bool elementExists = false;
             WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
             ReadOnlyCollection<IWebElement> elements = wait.Until(drv => (drv.FindElements(by)));
@@ -140,6 +147,7 @@ namespace GoogleFramework
 
         public static void WaitElementNotBePresent(By by, int iTimeout = 10)
         {
+            LogInfo("Waiting element not be present");
             Driver.Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             int i = 0;
             while(i < iTimeout)
@@ -160,6 +168,7 @@ namespace GoogleFramework
 
         public static void Click(By by)
         {
+            LogInfo("Clicking element");
             try
             {
                 int elem = 1;
@@ -187,6 +196,7 @@ namespace GoogleFramework
 
         public static void RightClick(By by)
         {
+            LogInfo("Right-Click element");
             Actions builder = new(Driver.Instance);
             builder.MoveToElement(Driver.Instance!.FindElement(by)).ContextClick().Perform();
             LogInfo("Right-Click element: " + Driver.Instance.FindElement(by).Text);
@@ -194,6 +204,7 @@ namespace GoogleFramework
         }
         public static void Click_Parent(By by)
         {
+            LogInfo("Clicking parent element");
             IWebElement myElement = Driver.Instance!.FindElement(by);
             IWebElement parent = myElement.FindElement(By.XPath("./.."));
             Actions builder = new(Driver.Instance);
