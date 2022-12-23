@@ -108,7 +108,8 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.LogInfo("--------GoogleDrive Cleanup--------");
             CommonFunctions.GoToPage(GoogleLogin.DriveUrl);
             CommonFunctions.Delay(3000);
-            string[] files = { "Untitled document", "TC103","TC302","TC305","TC402", "Untitled spreadsheet", "TC404" };
+            string[] files = { "Untitled document", "TC103","TC302","TC305","TC402", "Untitled spreadsheet", 
+                "TC404", "TC502", "TC504","Untitled presentation" };
             foreach (string file in files)
             {
                 while (Validation.DoesFileInGDriveExists(file))
@@ -135,6 +136,19 @@ namespace SeleniumWebdriverCSharp
             CommonFunctions.GoToPage(GoogleLogin.SheetlUrl);
             CommonFunctions.Delay(3000);
             string[] files = { "TC402", "TC404" };
+            foreach (string file in files)
+            {
+                while (Validation.DoesFileExistDocsSheetsSlides(file))
+                    GOfficePage.DeleteFile(file);
+            }
+        }
+
+        public static void RunSlidesCleanUp()
+        {
+            CommonFunctions.LogInfo("--------Google Slides Cleanup--------");
+            CommonFunctions.GoToPage(GoogleLogin.SlideUrl);
+            CommonFunctions.Delay(3000);
+            string[] files = { "TC502", "TC504" };
             foreach (string file in files)
             {
                 while (Validation.DoesFileExistDocsSheetsSlides(file))
