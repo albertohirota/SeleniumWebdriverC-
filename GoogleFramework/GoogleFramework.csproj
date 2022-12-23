@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Google\Google.json" />
+    <None Remove="Page\Google.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.58.0.2826" />
     <PackageReference Include="Google.Apis.Slides.v1" Version="1.58.0.2759" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.0" />
     <PackageReference Include="Selenium.Support" Version="4.7.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.7.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="108.0.5359.7100" />

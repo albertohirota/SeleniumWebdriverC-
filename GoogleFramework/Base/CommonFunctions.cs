@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Login;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
 namespace GoogleFramework
 {
-    public class CommonFunctions    {
+    public class CommonFunctions
+    {
         private static readonly log4net.ILog logger = log4net.LogManager.
             GetLogger(type: MethodBase.GetCurrentMethod()!.DeclaringType);
         internal static readonly CommonFunctions commonFunctions = new();
@@ -19,19 +19,19 @@ namespace GoogleFramework
         /// </summary>
         /// <param name="site">Need the website Enum</param>
         public static void Login(GoogleLogin.Sites site) => GoogleLogin.Go(site, Driver.Instance!);
-        
+
         /// <summary>
         /// Log Information
         /// </summary>
         /// <param name="message">Enter the message</param>
         public static void LogInfo(string message) => logger.Info(string.Format(message));
-        
+
         /// <summary>
         /// Enter the Warn
         /// </summary>
         /// <param name="message">Enter the message</param>
         public static void LogWarn(string message) => logger.Warn(string.Format(message));
-        
+
         /// <summary>
         /// Enter the Error message
         /// </summary>
@@ -55,12 +55,12 @@ namespace GoogleFramework
         /// <returns>return the IWebElement of the element</returns>
         public static IWebElement FindElement(By by)
         {
-            LogInfo("Finding element");
+            LogInfo("Finding element: "+by+" ...");
             IWebElement? findElement = null;
             try
             {
                 findElement = Driver.Instance!.FindElement(by);
-                LogInfo("Element found, Tag: " + findElement.TagName+ " Element: "+findElement.Text);
+                LogInfo("Element found, Tag: " + findElement.TagName + " Element: " + findElement.Text);
 
             }
             catch (Exception e)
@@ -79,8 +79,11 @@ namespace GoogleFramework
         /// <returns>Return boolean</returns>
         public static bool DoesElementExist(By element)
         {
+            LogInfo("Checking if the element exists...");
             bool exists;
-            exists = WaitElementPresent(element);
+            WaitElementBePresent(element);
+            ReadOnlyCollection<IWebElement> elements = FindElements(element);
+            exists = (elements.Count >0);
             LogInfo("Element exist: " + exists.ToString() + " and Element is: " + element.ToString());
             return exists;
         }
@@ -92,7 +95,7 @@ namespace GoogleFramework
         /// <returns>Return a collection of IWebelements</returns>
         public static ReadOnlyCollection<IWebElement> FindElements(By by)
         {
-            LogInfo("Finding elements");
+            LogInfo("Finding elements...");
             ReadOnlyCollection<IWebElement>? findElements = null;
             try
             {
@@ -115,10 +118,10 @@ namespace GoogleFramework
         /// <param name="testName">Enter the TestName of file name you wish</param>
         public static void TakeScreenshot(string testName)
         {
-            LogInfo("Taking screenshot");
+            LogInfo("Taking screenshot...");
             ITakesScreenshot? instance = Driver.Instance as ITakesScreenshot;
             var screenshot = instance!.GetScreenshot();
-            var fileName = $"{"sShot-"}{testName}{"_"}{DateTime.Now.Ticks}{".jpg"}";
+            var fileName = $"{"sShot-"}{testName}{"_"}{DateTime.Now.Ticks}{".png"}";
             var path = "C:\\Temp\\" + fileName;
             screenshot.SaveAsFile(path, ScreenshotImageFormat.Png);
             LogInfo("ScreenShot taken: " + path);
@@ -131,14 +134,18 @@ namespace GoogleFramework
         /// <param name="text">Enter the text or Key</param>
         public static void SendKey(By by, string text)
         {
-            LogInfo("Sending key");
-            bool elementExists = WaitElementPresent(by);
+            LogInfo("Sending key...");
+            WaitElementBePresent(by);
+            bool elementExists = DoesElementExist(by);
             if (elementExists)
             {
                 IWebElement element = FindElement(by);
                 element.SendKeys(text);
                 Delay(1000);
                 LogInfo("Sendkey: " + text + " to element: " + element.Text.ToString());
+            } else
+            {
+                LogError("Element does NOT exist.");
             }
         }
 
@@ -149,8 +156,9 @@ namespace GoogleFramework
         /// <param name="text">enter the text</param>
         public static void SendKeyActionBuilder(By by, string text)
         {
-            LogInfo("Sending Key using Action builder");
-            bool elementExists = WaitElementPresent(by);
+            LogInfo("Sending Key using Action builder...");
+            WaitElementBePresent(by);
+            bool elementExists = DoesElementExist(by);
             if (elementExists)
             {
                 Actions builder = new(Driver.Instance);
@@ -166,8 +174,9 @@ namespace GoogleFramework
         /// <param name="text">Enter the text or Key</param>
         public static void SendKeyAndEnter(By by, string text)
         {
-            LogInfo("Sending Key and pressing Enter");
-            bool elementExists = WaitElementPresent(by);
+            LogInfo("Sending Key and pressing Enter...");
+            WaitElementBePresent(by);
+            bool elementExists = DoesElementExist(by);
             if (elementExists)
             {
                 IWebElement element = FindElement(by);
@@ -176,6 +185,9 @@ namespace GoogleFramework
                 element.SendKeys(Keys.Return);
                 Delay(1000);
                 LogInfo("Sendkey: " + text + " to element: " + element.Text.ToString());
+            } else
+            {
+                LogError("Element NOT found");
             }
         }
 
@@ -185,17 +197,13 @@ namespace GoogleFramework
         /// <param name="by">Enter XPath of the element</param>
         /// <param name="iTimeout">Enter seconds you wish to wait</param>
         /// <returns>Return boolean if it was successful</returns>
-        public static bool WaitElementPresent(By by, int iTimeout = 10)
+        public static void WaitElementBePresent(By by, int iTimeout = 10)
         {
-            LogInfo("Waiting element be present");
-            bool elementExists = false;
+            LogInfo("Waiting element be present...");
             WebDriverWait wait = new(Driver.Instance, TimeSpan.FromSeconds(iTimeout));
-            ReadOnlyCollection<IWebElement> elements = wait.Until(drv => (drv.FindElements(by)));
-            elementExists = (elements.Count > 0);
-            LogInfo("Wait element. Seconds waited: "+iTimeout.ToString()+". - Elements found: " + elements.Count.ToString());
+            ReadOnlyCollection<IWebElement> elements = wait.Until(drv => drv.FindElements(by));
+            LogInfo("Wait element. Seconds waited: " + iTimeout.ToString() + ". - Elements found: " + elements.Count.ToString());
             Driver.Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-
-            return elementExists;
         }
 
         /// <summary>
@@ -205,10 +213,10 @@ namespace GoogleFramework
         /// <param name="iTimeout">Enter seconds you wish to wait</param>
         public static void WaitElementNotBePresent(By by, int iTimeout = 10)
         {
-            LogInfo("Waiting element not be present");
+            LogInfo("Waiting element not be present...");
             Driver.Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             int i = 0;
-            while(i < iTimeout)
+            while (i < iTimeout)
             {
                 try
                 {
@@ -230,14 +238,15 @@ namespace GoogleFramework
         /// <param name="by">Enter XPath element</param>
         public static void Click(By by)
         {
-            LogInfo("Clicking element");
+            LogInfo("Clicking element...");
+            WaitElementBePresent(by);
             try
             {
                 int elem = 1;
                 ReadOnlyCollection<IWebElement> findElements = Driver.Instance!.FindElements(by);
                 foreach (IWebElement element in findElements)
                 {
-                    LogInfo("Total element: "+ findElements.Count.ToString()+" of "+elem.ToString());
+                    LogInfo("Total element: " + findElements.Count.ToString() + " of " + elem.ToString());
                     if (element.Displayed)
                     {
                         LogInfo("Element found, Tag: " + element.TagName + " Element: " + element.Text);
@@ -261,7 +270,8 @@ namespace GoogleFramework
         /// <param name="by">Enter the XPath of the element</param>
         public static void RightClick(By by)
         {
-            LogInfo("Right-Click element");
+            LogInfo("Right-Click element...");
+            WaitElementBePresent(by);
             Actions builder = new(Driver.Instance);
             builder.MoveToElement(Driver.Instance!.FindElement(by)).ContextClick().Perform();
             LogInfo("Right-Click element: " + Driver.Instance.FindElement(by).Text);
@@ -274,7 +284,8 @@ namespace GoogleFramework
         /// <param name="by">Enter the XPath of the element</param>
         public static void Click_Parent(By by)
         {
-            LogInfo("Clicking parent element");
+            LogInfo("Clicking parent element...");
+            WaitElementBePresent(by);
             IWebElement myElement = Driver.Instance!.FindElement(by);
             IWebElement parent = myElement.FindElement(By.XPath("./.."));
             Actions builder = new(Driver.Instance);
@@ -288,12 +299,13 @@ namespace GoogleFramework
         /// <param name="by">Enter the XPath of the element</param>
         public static void Clear_TextElement(By by)
         {
-            LogInfo("Clear element, send text and press Enter");
-            WaitElementPresent(by);
+            LogInfo("Clear element, send text and press Enter...");
+            WaitElementBePresent(by);
             IWebElement element = FindElement(by);
             element.SendKeys(Keys.Control + "a");
             element.SendKeys(Keys.Delete);
             Delay(2000);
+            LogInfo("Element cleared: "+element.Text);
         }
 
         /// <summary>
@@ -302,7 +314,7 @@ namespace GoogleFramework
         /// <param name="by">Enter the XPath iFrame</param>
         public static void SwitchFrame(By by)
         {
-            LogInfo("Switching frame");
+            LogInfo("Switching frame...");
             Driver.Instance!.SwitchTo().ParentFrame();
             Driver.Instance!.SwitchTo().DefaultContent();
             Driver.Instance.SwitchTo().Frame(Driver.Instance.FindElement(by));
@@ -315,8 +327,9 @@ namespace GoogleFramework
         /// <returns>Return the text of the element</returns>
         public static string GetTextFromElement(By by)
         {
+            WaitElementBePresent(by);
             string text = Driver.Instance!.FindElement(by).Text;
-            LogInfo("Getting text from element: "+ text);
+            LogInfo("Getting text from element: " + text+" ...");
             LogInfo("Text found: " + text);
             return text;
         }
@@ -337,7 +350,7 @@ namespace GoogleFramework
         public static void GoToPage(string url)
         {
             Driver.Instance!.Navigate().GoToUrl(url);
-            LogInfo("Going to Webpage: "+ url);
+            LogInfo("Going to Webpage: " + url);
         }
 
         /// <summary>
@@ -346,18 +359,47 @@ namespace GoogleFramework
         /// <param name="tab">Enter the tab number</param>
         public static void CloseTab(int tab)
         {
+            LogInfo("Closing Tab: "+ tab.ToString()+" ...");
             Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]).Close();
-            LogInfo("Closing browser tab: " +tab.ToString());
+            LogInfo("Closing browser tab: " + tab.ToString());
         }
 
         /// <summary>
         /// Go to the browser Tab
         /// </summary>
         /// <param name="tab">Enter Tab number</param>
-        public static void GoToTab(int tab) 
+        public static void GoToTab(int tab)
         {
+            LogInfo("Going to Tab: " + tab.ToString() + " ...");
             Driver.Instance?.SwitchTo().Window(Driver.Instance.WindowHandles[tab]);
             LogInfo("Going to tab: " + tab.ToString());
-        }    
+        }
+
+        /// <summary>
+        /// Return if element is visible
+        /// </summary>
+        /// <param name="by">Enter XPath element</param>
+        /// <returns>return boolean</returns>
+        public static bool IsVisible(By by)
+        {
+            bool isVisible = false;
+            try
+            {
+                ReadOnlyCollection<IWebElement> elements = FindElements(by);
+                foreach (IWebElement element in elements)
+                {
+                    if (element.Displayed)
+                    {
+                        isVisible = true;
+                        LogInfo("Is element visible: " + isVisible.ToString() + ". Element is: " + element.Text);
+                    }
+                }
+            }
+            catch
+            {
+                LogError("Element not found...");
+            }
+            return isVisible;
+        }
     }
 }

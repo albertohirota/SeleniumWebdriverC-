@@ -47,9 +47,9 @@ namespace GoogleFramework
         public static void WaitDocumentBeingSaved()
         {
             LogInfo("Waiting document being saved");
-            bool fileSaved = WaitElementPresent(DocumentStatus);
+            bool fileSaved = DoesElementExist(DocumentStatus);
             while (!fileSaved)
-                fileSaved = WaitElementPresent(DocumentStatus);
+                fileSaved = DoesElementExist(DocumentStatus);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace GoogleFramework
         public static void SharePublic(string user)
         {
             LogInfo("Sharing document with: "+ user);
-            WaitElementPresent(ButtonShare);
+            WaitElementBePresent(ButtonShare);
             Click_ButtonShare();
             AddSharedUser(user);
             Click_SendInSharingWindow();

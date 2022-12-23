@@ -35,7 +35,7 @@ namespace SeleniumWebdriverCSharp
         [TestInitialize]
         public void TestSetup()
         {
-            string testMethodName = TestContext!.TestName;
+            string? testMethodName = TestContext!.TestName;
             CommonFunctions.LogInfo("--------Starting Test Case: "+ testMethodName + "--------");
         }
 
@@ -44,9 +44,9 @@ namespace SeleniumWebdriverCSharp
         {  
             if (TestContext!.CurrentTestOutcome == UnitTestOutcome.Failed)
             {
-                string testMethodName = TestContext!.TestName;
+                string? testMethodName = TestContext!.TestName;
                 CommonFunctions.LogError("TEST CASE FAILURE: "+testMethodName+" - Adding Screenshot...");
-                CommonFunctions.TakeScreenshot(testMethodName);
+                CommonFunctions.TakeScreenshot(testMethodName!);
             }
             CommonFunctions.LogInfo("--------End of the Test Case--------");
         }
@@ -68,7 +68,7 @@ namespace SeleniumWebdriverCSharp
         }
 
         [ClassCleanup()] //InheritanceBehavior.BeforeEachDerivedClass
-        public static void classCleanUp()
+        public static void ClassCleanUp()
         {
             CommonFunctions.LogInfo("--------Running Class Cleanup--------");
             Driver.CloseBrowser();
@@ -97,6 +97,7 @@ namespace SeleniumWebdriverCSharp
                 {
                     CalendarPage.DeleteEvent(ev);
                     CalendarPage.Click_ButtonSend();
+                    CommonFunctions.Delay(1500);
                 }
             }
             CommonFunctions.Delay(3000);

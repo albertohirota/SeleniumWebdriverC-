@@ -34,11 +34,11 @@ namespace GoogleFramework
         public static void CreateNewEvent()
         {
             LogInfo("creating new event");
-            WaitElementPresent(Create);
+            WaitElementBePresent(Create);
             Click_Create();
-            WaitElementPresent(Event);
+            WaitElementBePresent(Event);
             Click_Event();
-            WaitElementPresent(AddTitleSummaryPage);
+            WaitElementBePresent(AddTitleSummaryPage);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace GoogleFramework
         /// </summary>
         public static void Click_ButtonSend()
         {
-            if (Validation.IsElementVisible(ButtonSend))
+            if (CommonFunctions.IsVisible(ButtonSend))
                 Click(ButtonSend);
         }
 
@@ -70,7 +70,7 @@ namespace GoogleFramework
         {
             LogInfo("Clicking an existing Event: "+ ev);
             By by = By.XPath("//span[@class='FAxxKc'][contains(text(),'" + ev + "')]");
-            WaitElementPresent(by,15);
+            WaitElementBePresent(by,15);
             Click_Parent(by);
             if (!CommonFunctions.DoesElementExist(ButtonDeleteSummaryPage))
                 Click_Parent(By.XPath("//span[@class='FAxxKc'][contains(text(),'" + ev + "')]"));
