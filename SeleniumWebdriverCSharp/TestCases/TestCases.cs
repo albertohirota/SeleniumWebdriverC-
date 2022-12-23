@@ -1,8 +1,6 @@
 ﻿using Google.Apis.Sheets.v4.Data;
 using GoogleFramework;
-using GoogleFramework.Google;
 using Login;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SeleniumWebdriverCSharp
 {
@@ -28,7 +26,7 @@ namespace SeleniumWebdriverCSharp
         public static void TC004Setup()
         {
             CommonFunctions.Login(GoogleLogin.Sites.Gmail);
-            CommonFunctions.WaitElementPresent(GmailPage.ButtonCompose);
+            CommonFunctions.WaitElementBePresent(GmailPage.ButtonCompose);
             GmailPage.Click_NewEmail();
             GmailPage.PopulateEmail("albertohirota@gmail.com", "Test Receiving", "Test body receiving email", "alberto.hirota@gmail.com", "eitihirota@gmail.com");
             GmailPage.Click_SendEmail();
@@ -129,7 +127,7 @@ namespace SeleniumWebdriverCSharp
             CalendarPage.CreateNewEvent();
             CalendarPage.Add_Title_SummaryPage("TC203");
             CalendarPage.Click_ButtonMoreOptionsSummaryPage();
-            CommonFunctions.WaitElementPresent(CalendarPage.AddGuest);
+            CommonFunctions.WaitElementBePresent(CalendarPage.AddGuest);
             CalendarPage.Add_Guest("alberto.hirota@gmail.com");
             CalendarPage.Add_TextCalendarBody("This is TC203");
             CommonFunctions.Delay(2000);
@@ -161,7 +159,7 @@ namespace SeleniumWebdriverCSharp
         {
             bool? exist = false;
             GOfficePage.Click_OpenFile("TC301");
-            CommonFunctions.WaitElementPresent(GOfficePage.DocumentStatus,15);
+            CommonFunctions.WaitElementBePresent(GOfficePage.DocumentStatus,15);
             var text = DocsPage.GetDocumentBody(false);
 
             for (int i = 0; i < text.Count; i++)
@@ -181,7 +179,7 @@ namespace SeleniumWebdriverCSharp
             bool? exist = false;
 
             GOfficePage.Click_OpenFile("TC301");
-            CommonFunctions.WaitElementPresent(GOfficePage.DocumentStatus, 15);
+            CommonFunctions.WaitElementBePresent(GOfficePage.DocumentStatus, 15);
             var texts = DocsPage.GetDocumentHeader(false);
 
             for (int i = 0; i < texts.Count; i++)
@@ -268,7 +266,7 @@ namespace SeleniumWebdriverCSharp
                 foreach (var x in item)
                 {
                     
-                    if (Validation.DoesTextContainsInString(x.ToString(), "Test Case 404"))
+                    if (Validation.DoesTextContainsInString(x.ToString()!, "Test Case 404"))
                         exist = true;
                 }
             }

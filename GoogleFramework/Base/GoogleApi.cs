@@ -1,9 +1,8 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v2;
-using Google.Apis.Drive.v2.Data;
 using Google.Apis.Sheets.v4;
-using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Docs.v1;
+using Google.Apis.Slides.v1;
 using Google.Apis.Services;
 using System.Text.RegularExpressions;
 using Login;
@@ -13,21 +12,6 @@ namespace GoogleFramework
     public class GoogleApi : CommonFunctions
     {
         static readonly string ApplicationName = "GoogleAutomation"; 
-
-        public static IList<Property>? RetrieveProperties(DriveService service, String fileId)
-        {
-            LogInfo("Retriving document properties");
-            try
-            {
-                PropertyList properties = service.Properties.List(fileId).Execute();
-                return properties.Items;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("An error occurred: " + e.Message);
-            }
-            return null;
-        }
 
         /// <summary>
         /// Function to get the current Google Doc/Sheet/Slide ID that is current opened in the browser
@@ -79,7 +63,7 @@ namespace GoogleFramework
         /// </summary>
         /// <param name="runShareFile"> Does the user needs to share the file, so can be accessed by Google APIs</param>
         /// <returns>Google Drive Service</returns>
-        public static DriveService GetDriveService(bool runShareFile)
+        public static DriveService GetDriveService(bool runShareFile = false)
         {
             LogInfo("Getting Google Drive Service");
             DriveService service;
@@ -126,6 +110,26 @@ namespace GoogleFramework
             GoogleCredential credential = GetCredential(runShareFile);
 
             service = new DocsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+
+            return service;
+        }
+
+        /// <summary>
+        /// Gets Google Slidess Service
+        /// </summary>
+        /// <param name="runShareFile"> Does the user needs to share the file, so can be accessed by Google APIs</param>
+        /// <returns>Google Slides Service</returns>
+        public static SlidesService GetSlidesServices(bool runShareFile = false)
+        {
+            LogInfo("Getting Google Slides Service");
+            SlidesService service;
+            GoogleCredential credential = GetCredential(runShareFile);
+
+            service = new SlidesService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName,

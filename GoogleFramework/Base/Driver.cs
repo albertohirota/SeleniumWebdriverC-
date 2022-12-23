@@ -27,20 +27,20 @@ namespace GoogleFramework
         {
             Instance?.Quit();
 
-            switch(browser)
+            switch (browser)
             {
                 case Browsers.Firefox:
                     FirefoxOptions fOptions = new()
                     {
-                        AcceptInsecureCertificates= true
+                        AcceptInsecureCertificates = true
                     };
                     Instance = new FirefoxDriver(fOptions);
-                    break; 
+                    break;
 
                 case Browsers.Chrome:
                     ChromeOptions cOptions = new();
                     Instance = new ChromeDriver(cOptions);
-                    break; 
+                    break;
 
                 case Browsers.Edge:
                     EdgeOptions eOptions = new();
@@ -48,17 +48,17 @@ namespace GoogleFramework
                     break;
             }
             Instance!.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            logger.Info(String.Format("Browser started: "+ browser.ToString()));
+            logger.Info(string.Format("Browser started: " + browser.ToString()));
         }
 
         /// <summary>
         /// Close Browser
         /// </summary>
-        public static void CloseBrowser() 
+        public static void CloseBrowser()
         {
             Instance!.Close();
             Instance.Dispose();
-            logger.Info(String.Format("Browser Closed."));
+            logger.Info(string.Format("Browser Closed."));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace GoogleFramework
         public static void InstanceClose()
         {
             Instance!.Quit();
-            logger.Info(String.Format("Instance ended......."));
+            logger.Info(string.Format("Instance ended......."));
         }
     }
 }
