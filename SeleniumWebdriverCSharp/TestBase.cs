@@ -63,7 +63,7 @@ namespace SeleniumWebdriverCSharp
             RunGoogleDriveCleanUp();
             RunDocsCleanUp();
             RunSheetsCleanUp();
-
+            RunSlidesCleanUp();
             Driver.InstanceClose();
         }
 
